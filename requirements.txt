@@ -1,0 +1,7 @@
+# Core demo runs with the Python standard library only — no install required.
+#
+# The dependencies below are for the RAG / LLM upgrade path (optional):
+# openai>=1.0            # Azure OpenAI client for LLM claim extraction
+# chromadb>=0.5          # vector store for spec RAG
+# sentence-transformers  # local embeddings
+# pyslang                # production SystemVerilog parsing
