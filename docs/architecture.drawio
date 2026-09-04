@@ -49,7 +49,7 @@
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E7ECF5;strokeColor=#2B3A55;strokeWidth=2;fontColor=#2B3A55;fontSize=16;verticalAlign=middle;" value="&lt;b&gt;Sim Checker&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;color: rgb(90, 100, 115);&quot;&gt;confirm&lt;/font&gt;" vertex="1">
           <mxGeometry height="70" width="190" x="425" y="873" as="geometry" />
         </mxCell>
-        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E7ECF5;strokeColor=#2B3A55;strokeWidth=2;fontColor=#2B3A55;fontSize=16;verticalAlign=middle;" value="&lt;b&gt;Report Gen&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;color: rgb(90, 100, 115);&quot;&gt;ledger&lt;/font&gt;" vertex="1">
+        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E7ECF5;strokeColor=#2B3A55;strokeWidth=2;fontColor=#2B3A55;fontSize=16;verticalAlign=middle;" value="&lt;b&gt;Report Gen&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;color: rgb(90, 100, 115);&quot;&gt;audit report&lt;/font&gt;" vertex="1">
           <mxGeometry height="70" width="190" x="807" y="873" as="geometry" />
         </mxCell>
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7FAFD;strokeColor=#12324F;strokeWidth=2;verticalAlign=top;fontSize=18;" value="" vertex="1">
