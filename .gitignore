@@ -24,4 +24,6 @@ Thumbs.db
 # Presentation build artifacts
 presentation/node_modules/
 presentation/render/
+presentation/video/
 presentation/package-lock.json
+presentation/voiceover_*.wav

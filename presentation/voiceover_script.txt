@@ -1,0 +1,11 @@
+﻿Every chip starts as intent. A high-level spec, refined into a micro-architecture spec, then built as RTL. But intent drifts. A bus width changes in a review. A register moves in a meeting. And those decisions rarely make it back into the spec. When the RTL no longer matches the intent, that is how bugs, and security holes, reach silicon.
+
+Today, catching that drift means manually cross-checking the RTL against the high-level spec, the micro-architecture spec, and a scattered trail of review notes. It is slow, inconsistent, and the first thing dropped under deadline pressure. Meet Spec-RTL Sentinel, the Design Intent Auditor.
+
+Sentinel ingests every layer of design authority into a RAG knowledge store: the high-level spec, the micro-architecture spec, and the real decisions from reviews and meetings. Its agents extract testable claims, scan the RTL, and reconcile conflicts by authority and recency, so a newer review outranks a stale spec.
+
+Here it is on a real example, a hardware compression accelerator. One command, and in seconds Sentinel runs two checks: spec-to-spec coverage, and spec-to-RTL conformance. It catches a thirty-two bit bus where sixty-four is required. A missing state in the control machine. A performance counter never implemented. And an interrupt register a review moved, which the RTL correctly followed.
+
+And it grades maturity by milestone: the interface, then function, then error, D-F-T, and performance. Here, the design fails its very first gate.
+
+Every finding cites its exact source. No hallucinations. Just grounded, traceable evidence. Spec-RTL Sentinel: catching spec-to-silicon drift before it becomes a bug.
