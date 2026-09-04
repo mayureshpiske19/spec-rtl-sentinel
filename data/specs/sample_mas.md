@@ -34,13 +34,15 @@ and FSM states that the RTL must implement faithfully.
 ## Testable Claims
 
 The following machine-readable table is consumed by the Claim Extractor agent.
-Each row is an independently verifiable claim against the RTL.
+Each row is an independently verifiable claim against the RTL. The `traces`
+column links the claim up to the HAS requirement it refines (top-down
+traceability: HAS → MAS → RTL).
 
-| id | type | target | property | expected | source |
-| --- | --- | --- | --- | --- | --- |
-| CLAIM-01 | signal_width | s_axi_wdata | width_bits | 64 | §2.1 |
-| CLAIM-02 | reset_polarity | aresetn | active | low | §2.2 |
-| CLAIM-03 | register | CTRL | offset | 0x00 | §3.1 |
-| CLAIM-04 | register | STATUS | offset | 0x04 | §3.2 |
-| CLAIM-05 | register | BEK_KEY | offset | 0x10 | §3.3 |
-| CLAIM-06 | fsm_states | ciu_fsm | states | IDLE,ACTIVE,ERROR | §4.1 |
+| id | type | target | property | expected | traces | source |
+| --- | --- | --- | --- | --- | --- | --- |
+| CLAIM-01 | signal_width | s_axi_wdata | width_bits | 64 | HAS-02 | §2.1 |
+| CLAIM-02 | reset_polarity | aresetn | active | low | HAS-01 | §2.2 |
+| CLAIM-03 | register | CTRL | offset | 0x00 | HAS-04 | §3.1 |
+| CLAIM-04 | register | STATUS | offset | 0x04 | HAS-04 | §3.2 |
+| CLAIM-05 | register | BEK_KEY | offset | 0x10 | HAS-03 | §3.3 |
+| CLAIM-06 | fsm_states | ciu_fsm | states | IDLE,ACTIVE,ERROR | HAS-04 | §4.1 |
