@@ -22,6 +22,7 @@ class HASRequirement:
     id: str
     kind: str          # concept | performance | security
     requirement: str
+    category: str      # boundary | csr | functional | error | dft | perf | debug
     source: str
 
     def to_dict(self) -> dict:
@@ -38,8 +39,11 @@ def parse_has(has_path: str, store: Optional[RagStore] = None) -> List[HASRequir
     rows = re.findall(r"^\|\s*(HAS-\d+)\s*\|(.+)\|\s*$", text, re.MULTILINE)
     for rid, rest in rows:
         cols = [c.strip() for c in rest.split("|")]
-        if len(cols) >= 3:
-            reqs.append(HASRequirement(rid, cols[0], cols[1], cols[2]))
+        # cols = [kind, requirement, category, source]
+        if len(cols) >= 4:
+            reqs.append(HASRequirement(rid, cols[0], cols[1], cols[2], cols[3]))
+        elif len(cols) >= 3:
+            reqs.append(HASRequirement(rid, cols[0], cols[1], "functional", cols[2]))
     return reqs
 
 

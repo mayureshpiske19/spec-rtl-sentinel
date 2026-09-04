@@ -26,17 +26,29 @@
 - **§4.0** Block control is managed by a finite state machine that includes
   **explicit error handling**.
 
+## 5. Test, Debug & Observability
+
+- **§5.1** The block reports fault conditions through an **error-status**
+  register.
+- **§5.2** The block supports **scan-based DFT** via a scan-enable control.
+- **§5.3** A **performance counter** exposes transaction activity for tuning.
+
 ---
 
 ## Requirements (machine-readable)
 
 The Sentinel HAS parser consumes this table. Each row is a top-level
-requirement that the MAS is expected to refine.
+requirement that the MAS is expected to refine. The `category` column places
+each requirement in a maturity milestone (boundary/csr = 0.1, functional = 0.5,
+error/dft/perf/debug = 0.8).
 
-| id | kind | requirement | source |
-| --- | --- | --- | --- |
-| HAS-01 | concept | CSR block exposed to SoC fabric via an AXI4 subordinate interface | §1.2 |
-| HAS-02 | performance | Fabric data path is 64-bit wide for target throughput | §2.1 |
-| HAS-03 | security | Secret boot key (BEK) provisioned by security engine into a dedicated register | §3.4 |
-| HAS-04 | concept | Block control managed by an FSM with explicit error handling | §4.0 |
-| HAS-05 | performance | CSR reads complete with single-cycle latency | §2.3 |
+| id | kind | requirement | category | source |
+| --- | --- | --- | --- | --- |
+| HAS-01 | concept | CSR block exposed to SoC fabric via an AXI4 subordinate interface | boundary | §1.2 |
+| HAS-02 | performance | Fabric data path is 64-bit wide for target throughput | boundary | §2.1 |
+| HAS-03 | security | Secret boot key (BEK) provisioned by security engine into a dedicated register | csr | §3.4 |
+| HAS-04 | concept | Block control managed by an FSM with explicit error handling | functional | §4.0 |
+| HAS-05 | performance | CSR reads complete with single-cycle latency | perf | §2.3 |
+| HAS-06 | reliability | Fault conditions reported via an error-status register | error | §5.1 |
+| HAS-07 | testability | Scan-based DFT supported via a scan-enable control | dft | §5.2 |
+| HAS-08 | performance | Performance counter exposes transaction activity | perf | §5.3 |

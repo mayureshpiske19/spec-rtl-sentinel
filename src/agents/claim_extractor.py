@@ -27,6 +27,7 @@ class Claim:
     target: str        # signal / register / fsm name
     property: str      # width_bits | active | offset | states
     expected: str      # expected value (string form)
+    category: str      # boundary | csr | functional | error | dft | perf | debug
     traces: str        # HAS requirement id this claim refines (e.g. "HAS-02")
     source: str        # spec clause reference, e.g. "§2.1"
 
@@ -49,14 +50,17 @@ def _extract_from_table(text: str) -> List[Claim]:
     rows = re.findall(r"^\|\s*(CLAIM-\d+)\s*\|(.+)\|\s*$", text, re.MULTILINE)
     for cid, rest in rows:
         cols = [c.strip() for c in rest.split("|")]
-        # cols = [type, target, property, expected, traces, source]
-        if len(cols) >= 6:
+        # cols = [type, target, property, expected, category, traces, source]
+        if len(cols) >= 7:
             claims.append(Claim(cid, cols[0], cols[1], cols[2], cols[3],
-                                cols[4], cols[5]))
+                                cols[4], cols[5], cols[6]))
+        elif len(cols) >= 6:
+            # Backward-compatible: no category column (defaults to functional).
+            claims.append(Claim(cid, cols[0], cols[1], cols[2], cols[3],
+                                "functional", cols[4], cols[5]))
         elif len(cols) >= 5:
-            # Backward-compatible: no traces column present.
             claims.append(Claim(cid, cols[0], cols[1], cols[2], cols[3],
-                                "", cols[4]))
+                                "functional", "", cols[4]))
     return claims
 
 

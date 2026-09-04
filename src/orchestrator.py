@@ -28,6 +28,7 @@ from .agents.traceability import build_trace, apply_rtl_rollup, TraceRow
 from .agents.rtl_scanner import scan_rtl, RTLFacts
 from .agents.mapper import map_claims, Finding
 from .agents.sim_checker import run_sim_checks, SimResult
+from . import milestones as ms
 from .report import build_report, save_report
 
 
@@ -39,8 +40,11 @@ class PipelineResult:
     resolver: ResolverResult
     trace_rows: List[TraceRow]
     facts: RTLFacts
-    findings: List[Finding]
+    findings: List[Finding]          # scoped to the selected milestone
+    all_findings: List[Finding]      # every finding, regardless of milestone
     sim_results: List[SimResult]
+    gates: list
+    milestone: str
     report_md: str
     report_path: str
     rag_stats: dict
@@ -48,7 +52,8 @@ class PipelineResult:
 
 def run_pipeline(has_path: str, spec_path: str, rtl_path: str,
                  decisions_dir: str, use_llm: bool = False,
-                 out_dir: str = "reports") -> PipelineResult:
+                 out_dir: str = "reports", milestone: str = "1.0") -> PipelineResult:
+    milestone = ms.normalize(milestone)
     store = RagStore()
 
     # Ingest all layers into the RAG store.
@@ -64,19 +69,27 @@ def run_pipeline(has_path: str, spec_path: str, rtl_path: str,
 
     # Scan RTL and diff against the resolved (effective) claims.
     facts = scan_rtl(rtl_path)
-    findings = map_claims(resolver, facts, decisions=decisions, store=store)
+    all_findings = map_claims(resolver, facts, decisions=decisions, store=store)
 
     # Roll RTL status up onto each HAS requirement.
-    status_by_claim = {f.claim_id: f.status for f in findings}
+    status_by_claim = {f.claim_id: f.status for f in all_findings}
     apply_rtl_rollup(trace_rows, status_by_claim)
+
+    # Per-milestone gate status (always computed across all milestones).
+    gates = ms.compute_gates(all_findings, trace_rows)
+
+    # Findings scoped to the selected milestone (for the detailed section).
+    scope = ms.scope_for(milestone)
+    findings = [f for f in all_findings
+                if getattr(f, "category", "functional") in scope]
 
     sim_results = run_sim_checks(rtl_path)
 
     report_md = build_report(findings, sim_results, trace_rows, resolver,
                              decisions, store.stats(), has_path, spec_path,
-                             rtl_path)
+                             rtl_path, gates=gates, milestone=milestone)
     report_path = save_report(report_md, out_dir=out_dir)
 
     return PipelineResult(has_reqs, claims, decisions, resolver, trace_rows,
-                          facts, findings, sim_results, report_md, report_path,
-                          store.stats())
+                          facts, findings, all_findings, sim_results, gates,
+                          milestone, report_md, report_path, store.stats())

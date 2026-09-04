@@ -30,6 +30,7 @@ class TraceRow:
     kind: str
     requirement: str
     status: str                       # traced | gap
+    category: str = "functional"      # milestone category (from HAS requirement)
     claim_ids: List[str] = field(default_factory=list)
     rtl_rollup: str = "n/a"           # worst RTL status among refining claims
 
@@ -46,6 +47,7 @@ def build_trace(has_reqs: List[HASRequirement], claims: List[Claim]) -> List[Tra
         rows.append(TraceRow(
             has_id=r.id, kind=r.kind, requirement=r.requirement,
             status=TRACED if cs else GAP,
+            category=getattr(r, "category", "functional") or "functional",
             claim_ids=[c.id for c in cs],
         ))
     return rows

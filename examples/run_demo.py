@@ -3,10 +3,11 @@ Demo entry point — Design Intent Ledger.
 
 Usage:
     python examples/run_demo.py
+    python examples/run_demo.py --milestone 0.1
     python examples/run_demo.py --has data/has/sample_has.md \
         --spec data/specs/sample_mas.md \
         --rtl data/rtl/sample_ciu_axi_sub.sv \
-        --decisions data/decisions
+        --decisions data/decisions --milestone 0.5
 """
 
 import argparse
@@ -24,26 +25,40 @@ def main() -> int:
     ap.add_argument("--spec", default="data/specs/sample_mas.md")
     ap.add_argument("--rtl", default="data/rtl/sample_ciu_axi_sub.sv")
     ap.add_argument("--decisions", default="data/decisions")
+    ap.add_argument("--milestone", default="1.0",
+                    choices=["0.1", "0.5", "0.8", "1.0"],
+                    help="Check scope: 0.1 boundary+CSR, 0.5 +functional, "
+                         "0.8 +error/dft/perf/debug, 1.0 overall")
     ap.add_argument("--llm", action="store_true")
     args = ap.parse_args()
 
-    r = run_pipeline(args.has, args.spec, args.rtl, args.decisions, use_llm=args.llm)
+    r = run_pipeline(args.has, args.spec, args.rtl, args.decisions,
+                     use_llm=args.llm, milestone=args.milestone)
 
     print("=" * 72)
     print("Spec-RTL Sentinel — Design Intent Ledger")
     print("=" * 72)
     print(f"Knowledge ingested : {r.rag_stats}  (HAS/MAS/DECISION chunks)")
-    print(f"HAS requirements   : {len(r.has_reqs)}")
+    print(f"HAS requirements   : {len(r.has_reqs)}   (golden reference)")
     print(f"MAS claims         : {len(r.claims)}")
     print(f"Decisions          : {len(r.decisions)}")
     print(f"RTL module         : {r.facts.module}")
+    print(f"Milestone scope    : {r.milestone}")
     print()
 
-    print("Traceability (HAS -> MAS -> RTL):")
-    for row in r.trace_rows:
-        tag = "GAP" if row.status == "gap" else row.rtl_rollup.upper()
-        print(f"  {row.has_id} [{row.kind:11}] -> {row.claim_ids or '—'}  "
-              f"=> {tag}")
+    print("Milestone gate status (cumulative):")
+    for g in r.gates:
+        verdict = "PASS" if g["passed"] else "FAIL"
+        reasons = ""
+        if not g["passed"]:
+            bits = []
+            if g["fails"]:
+                bits.append(", ".join(f"{x.claim_id}:{x.status}" for x in g["fails"]))
+            if g["gaps"]:
+                bits.append(", ".join(f"{t.has_id}:gap" for t in g["gaps"]))
+            reasons = "  <- " + "; ".join(bits)
+        print(f"  [{verdict}] {g['milestone']:4} {g['label']:38} "
+              f"checked={g['checked']}{reasons}")
     print()
 
     if r.resolver.conflicts:
@@ -54,11 +69,11 @@ def main() -> int:
                   f"{c.resolved_value} ({c.authority})")
         print()
 
-    print("Findings:")
+    print(f"Findings (milestone {r.milestone} scope):")
     for f in r.findings:
         back = f" [backing: {','.join(f.backing)}]" if f.backing else ""
-        print(f"  [{f.status.upper():12}] {f.claim_id:10} ({f.confidence:6}) "
-              f"{f.traces_to or '   '}  {f.detail}{back}")
+        print(f"  [{f.status.upper():12}] {f.claim_id:10} {f.category:10} "
+              f"({f.confidence:6}) {f.traces_to or '   '}  {f.detail}{back}")
     print()
     print(f"Full report: {r.report_path}")
     print("=" * 72)

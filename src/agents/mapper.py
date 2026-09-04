@@ -52,6 +52,7 @@ class Finding:
     backing: List[str] = field(default_factory=list)   # decision ids
     conflict: bool = False
     rag_evidence: str = ""                              # grounded citation text
+    category: str = "functional"                        # milestone category
 
     def to_dict(self) -> dict:
         return self.__dict__.copy()
@@ -78,6 +79,7 @@ def map_claims(result: ResolverResult, facts: RTLFacts,
         else:
             f = Finding(c.id, AMBIGUOUS, f"Unknown claim type '{c.type}'.",
                         c.source, "n/a", traces_to=c.traces, confidence=REVIEW)
+        f.category = getattr(c, "category", "functional") or "functional"
         _annotate(f, rc, store)
         findings.append(f)
 
@@ -177,7 +179,8 @@ def _find_undocumented(facts: RTLFacts, covered: set,
         f = Finding("RTL-EXTRA", UNDOCUMENTED,
                     f"RTL register ADDR_{name} at {off} has no matching spec "
                     f"claim.",
-                    "n/a", f"ADDR_{name} = {off}", confidence=REVIEW)
+                    "n/a", f"ADDR_{name} = {off}", confidence=REVIEW,
+                    category="debug")
         notes = context.get(name)
         if notes:
             d = notes[0]

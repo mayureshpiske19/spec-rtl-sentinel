@@ -24,6 +24,7 @@ from .agents.authority_resolver import ResolverResult
 from .agents.traceability import TraceRow, GAP
 from .agents.decision_ingest import Decision
 from .agents.sim_checker import SimResult
+from . import milestones as _ms
 
 _ICON = {
     VERIFIED: "✅",
@@ -38,7 +39,8 @@ _CONF = {"high": "🟢 high", "medium": "🟠 medium", "review": "🔴 review"}
 def build_report(findings: List[Finding], sim_results: List[SimResult],
                  trace_rows: List[TraceRow], resolver: ResolverResult,
                  decisions: List[Decision], rag_stats: dict,
-                 has_path: str, spec_path: str, rtl_path: str) -> str:
+                 has_path: str, spec_path: str, rtl_path: str,
+                 gates: list = None, milestone: str = "1.0") -> str:
     counts = {k: 0 for k in _ICON}
     for f in findings:
         counts[f.status] = counts.get(f.status, 0) + 1
@@ -50,6 +52,8 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     L.append("# Spec-RTL Sentinel — Design Intent Ledger Report")
     L.append("")
     L.append(f"- **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    L.append(f"- **Milestone scope:** `{milestone}`  "
+             "(HAS is the golden reference; MAS + RTL are checked against it)")
     L.append(f"- **HAS:** `{os.path.basename(has_path)}` · "
              f"**MAS:** `{os.path.basename(spec_path)}` · "
              f"**RTL:** `{os.path.basename(rtl_path)}`")
@@ -58,10 +62,26 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
              + " chunks")
     L.append("")
 
+    # 0. Milestone gates
+    if gates:
+        L.append("## 0. Milestone Gate Status")
+        L.append("")
+        L.append("| Milestone | Scope | Checked | Fails | Gaps | Gate |")
+        L.append("| --- | --- | --- | --- | --- | --- |")
+        for g in gates:
+            verdict = "✅ PASS" if g["passed"] else "🚨 FAIL"
+            L.append(f"| **{g['milestone']}** | {g['label']} | {g['checked']} | "
+                     f"{len(g['fails'])} | {len(g['gaps'])} | {verdict} |")
+        L.append("")
+        L.append("> Gates are cumulative: each milestone re-checks everything "
+                 "from the milestones below it. A milestone passes only when "
+                 "every in-scope claim is verified with no traceability gap.")
+        L.append("")
+
     # 1. Summary
     L.append("## 1. Summary")
     L.append("")
-    L.append(f"- Claims checked: **{total}**")
+    L.append(f"- Claims checked (milestone {milestone} scope): **{total}**")
     L.append(f"- {_ICON[VERIFIED]} Verified: **{counts[VERIFIED]}** · "
              f"{_ICON[DRIFT]} Drift: **{counts[DRIFT]}** · "
              f"{_ICON[MISSING]} Missing: **{counts[MISSING]}** · "
@@ -112,14 +132,16 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     # 4. Findings
     L.append("## 4. Clause-by-Clause Findings")
     L.append("")
-    L.append("| Claim | Status | Conf | Traces | Spec | Detail | Evidence |")
-    L.append("| --- | --- | --- | --- | --- | --- | --- |")
+    L.append("| Claim | Milestone | Category | Status | Conf | Traces | Spec | Detail | Evidence |")
+    L.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for f in findings:
         icon = _ICON.get(f.status, "")
         conf = _CONF.get(f.confidence, f.confidence)
         back = (" · backing: " + ",".join(f.backing)) if f.backing else ""
         ev = (f.rag_evidence or f.rtl_evidence).replace("|", "\\|")
-        L.append(f"| {f.claim_id} | {icon} {f.status} | {conf} | "
+        cat = getattr(f, "category", "functional")
+        mstone = _ms.milestone_of(cat)
+        L.append(f"| {f.claim_id} | {mstone} | {cat} | {icon} {f.status} | {conf} | "
                  f"{f.traces_to or '—'} | {f.spec_source} | {f.detail}{back} | "
                  f"{ev} |")
     L.append("")

@@ -92,6 +92,33 @@ gap, and explain an undocumented register. Report -> `reports/drift_report.md`.
 - **Undocumented (explained)** — a DEBUG register not in any spec, but a July-30 meeting flagged it as a temporary bring-up hook.
 - **Traceability gap** — HAS-05 (single-cycle read latency) was never refined into a MAS claim.
 
+## Milestone-based checking
+
+HAS is the **golden reference** — it is never flagged. MAS and RTL are checked
+against it **milestone by milestone**, where each milestone only checks the
+parameters relevant at that stage (cumulatively):
+
+| Milestone | Scope (what gets checked) |
+| --- | --- |
+| **0.1** | Boundary — interface ports + CSR registers |
+| **0.5** | + Functional behavior (FSM, datapath) |
+| **0.8** | + Errors, DFT, perf counters, debug |
+| **1.0** | Overall / integration — everything |
+
+Every run prints a **milestone gate table** — is the RTL 0.1-clean? 0.5-clean? —
+and you can scope a run to one milestone:
+
+```bash
+python examples/run_demo.py --milestone 0.1   # only boundary + CSR
+python examples/run_demo.py --milestone 0.5   # + functional
+python examples/run_demo.py                    # 1.0 (everything, default)
+```
+
+Gates are cumulative: a milestone passes only when every in-scope claim is
+verified with no traceability gap. In the demo, **all four gates fail** — 0.1
+already fails on the bus-width drift and the missing STATUS register, so the RTL
+isn't even 0.1-ready yet.
+
 ## RAG / LLM upgrade path
 
 The demo uses deterministic extraction and an offline TF-cosine RAG index so
@@ -115,6 +142,7 @@ data/decisions/    synthetic reviews/meetings (authority + date)
 data/rtl/          synthetic SystemVerilog with injected drift
 src/knowledge/     multi-source RAG store
 src/agents/        the agents (parse, ingest, resolve, trace, scan, map, sim)
+src/milestones.py    milestone scope + cumulative gate logic
 src/orchestrator.py  end-to-end pipeline
 src/report.py        layered report generator
 examples/run_demo.py

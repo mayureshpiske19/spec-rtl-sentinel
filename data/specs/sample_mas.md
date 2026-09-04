@@ -29,20 +29,32 @@ and FSM states that the RTL must implement faithfully.
 - **§4.1** The control FSM `ciu_fsm` shall implement the states
   **IDLE, ACTIVE, ERROR**.
 
+## 5. Error, Test, Debug & Performance
+
+- **§5.1** `ERR_STATUS` register at byte offset **0x0C** (read-only) reports
+  fault conditions.
+- **§5.2** A scan-enable input `scan_en` (1 bit) controls scan-based DFT.
+- **§5.3** `PERF_CNT` register at byte offset **0x14** (read-only) counts
+  transactions.
+
 ---
 
 ## Testable Claims
 
 The following machine-readable table is consumed by the Claim Extractor agent.
-Each row is an independently verifiable claim against the RTL. The `traces`
-column links the claim up to the HAS requirement it refines (top-down
-traceability: HAS → MAS → RTL).
+Each row is an independently verifiable claim against the RTL. The `category`
+column places the claim in a maturity milestone (boundary/csr = 0.1,
+functional = 0.5, error/dft/perf/debug = 0.8); the `traces` column links the
+claim up to the HAS requirement it refines (top-down: HAS → MAS → RTL).
 
-| id | type | target | property | expected | traces | source |
-| --- | --- | --- | --- | --- | --- | --- |
-| CLAIM-01 | signal_width | s_axi_wdata | width_bits | 64 | HAS-02 | §2.1 |
-| CLAIM-02 | reset_polarity | aresetn | active | low | HAS-01 | §2.2 |
-| CLAIM-03 | register | CTRL | offset | 0x00 | HAS-04 | §3.1 |
-| CLAIM-04 | register | STATUS | offset | 0x04 | HAS-04 | §3.2 |
-| CLAIM-05 | register | BEK_KEY | offset | 0x10 | HAS-03 | §3.3 |
-| CLAIM-06 | fsm_states | ciu_fsm | states | IDLE,ACTIVE,ERROR | HAS-04 | §4.1 |
+| id | type | target | property | expected | category | traces | source |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| CLAIM-01 | signal_width | s_axi_wdata | width_bits | 64 | boundary | HAS-02 | §2.1 |
+| CLAIM-02 | reset_polarity | aresetn | active | low | boundary | HAS-01 | §2.2 |
+| CLAIM-03 | register | CTRL | offset | 0x00 | csr | HAS-04 | §3.1 |
+| CLAIM-04 | register | STATUS | offset | 0x04 | csr | HAS-04 | §3.2 |
+| CLAIM-05 | register | BEK_KEY | offset | 0x10 | csr | HAS-03 | §3.3 |
+| CLAIM-06 | fsm_states | ciu_fsm | states | IDLE,ACTIVE,ERROR | functional | HAS-04 | §4.1 |
+| CLAIM-07 | register | ERR_STATUS | offset | 0x0C | error | HAS-06 | §5.1 |
+| CLAIM-08 | signal_width | scan_en | width_bits | 1 | dft | HAS-07 | §5.2 |
+| CLAIM-09 | register | PERF_CNT | offset | 0x14 | perf | HAS-08 | §5.3 |
