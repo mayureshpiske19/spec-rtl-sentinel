@@ -41,7 +41,7 @@ recency — a newer design review outranks a stale spec."
 ---
 
 ## [0:55–1:35] — Live Demo (the money shot)
-*(On screen: terminal — run `python examples/run_demo.py`, then the report)*
+*(On screen: terminal — run `python run_demo.py`, then the report)*
 
 "Here it is on a real example — a hardware compression accelerator, the Zephyr
 COSS. One command… and in seconds Sentinel produces a clause-by-clause drift

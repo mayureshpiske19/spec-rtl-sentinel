@@ -63,6 +63,8 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     L.append(f"- **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     L.append(f"- **Milestone scope:** `{milestone}`  "
              "(HAS is the golden reference; MAS + RTL are checked against it)")
+    L.append(f"- **Two checks:** HAS → MAS coverage (spec vs spec) · "
+             "MAS → RTL conformance (spec vs implementation)")
     L.append(f"- **HAS:** `{os.path.basename(has_path)}` · "
              f"**MAS:** `{os.path.basename(spec_path)}` · "
              f"**RTL:** `{os.path.basename(rtl_path)}`")
@@ -104,7 +106,10 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     L.append("")
 
     # 2. Traceability
-    L.append("## 2. Traceability — HAS → MAS → RTL")
+    L.append("## 2. HAS → MAS Coverage  *(spec vs spec)*")
+    L.append("")
+    L.append("_Does every top-level HAS requirement have a MAS claim refining "
+             "it? A **gap** = present in the HAS but never detailed in the MAS._")
     L.append("")
     L.append("| HAS req | Kind | Requirement | MAS claims | RTL rollup | Trace |")
     L.append("| --- | --- | --- | --- | --- | --- |")
@@ -139,7 +144,11 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     L.append("")
 
     # 4. Findings
-    L.append("## 4. Clause-by-Clause Findings")
+    L.append("## 4. MAS → RTL Conformance  *(spec vs implementation)*")
+    L.append("")
+    L.append("_Does the RTL implement each MAS claim? Drift = implemented "
+             "differently; missing = not implemented; undocumented = in RTL "
+             "but no claim._")
     L.append("")
     L.append("| Claim | Milestone | Category | Status | Conf | Traces | Spec | Detail | Evidence |")
     L.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")

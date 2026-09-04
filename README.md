@@ -32,15 +32,18 @@ grounds RTL against all of them at once:
 
 ![Spec-RTL Sentinel architecture](docs/architecture.png)
 
-It produces a **layered drift report**:
+It runs **two checks** and produces a **layered drift report**:
 
-1. **Traceability** HAS -> MAS -> RTL, flagging **gaps** (top-level intent that
-   was never detailed in the MAS, so it can't be verified).
-2. **Spec conflicts** — where a review/decision contradicts the MAS, resolved by
-   **authority + recency** (arch review > design review > meeting > spec).
-3. **Clause-by-clause findings** with a full **evidence chain**: the HAS
-   requirement, the spec clause, the decision that backs or amended it, a
-   **confidence** level, and the grounded source text.
+1. **HAS → MAS coverage** *(spec vs spec)* — does every top-level HAS
+   requirement have a MAS claim refining it? A **gap** means the intent is in
+   the HAS but was never detailed in the MAS, so it can't be verified.
+2. **MAS → RTL conformance** *(spec vs implementation)* — does the RTL implement
+   each MAS claim? Reports **drift** (implemented differently), **missing** (not
+   implemented), and **undocumented** (in RTL but no claim), each with a
+   **confidence** level and grounded evidence.
+3. **Spec conflicts** — where a review/decision contradicts the MAS, resolved by
+   **authority + recency** (arch review > design review > meeting > spec); the
+   RTL is checked against the *resolved* intent, and the stale MAS is flagged.
 
 **Anti-hallucination by design:** every finding cites the exact source (HAS/MAS
 clause or decision id) it is grounded in. Nothing is asserted without a
@@ -72,7 +75,7 @@ All grounded in a dependency-free **RAG store** (`src/knowledge/rag_store.py`).
 ## Quick start
 
 ```bash
-python examples/run_demo.py
+python run_demo.py
 ```
 
 Runs **fully offline** (no API keys) over a bundled synthetic example — the
@@ -128,9 +131,9 @@ Every run prints a **milestone gate table** — is the RTL 0.1-clean? 0.5-clean?
 and you can scope a run to one milestone:
 
 ```bash
-python examples/run_demo.py --milestone 0.1   # only boundary + CSR
-python examples/run_demo.py --milestone 0.5   # + functional
-python examples/run_demo.py                    # 1.0 (everything, default)
+python run_demo.py --milestone 0.1   # only boundary + CSR
+python run_demo.py --milestone 0.5   # + functional
+python run_demo.py                    # 1.0 (everything, default)
 ```
 
 Gates are cumulative: a milestone passes only when every in-scope claim is
@@ -156,10 +159,9 @@ it's reproducible with zero setup. Documented hooks upgrade it to a full system:
 ## Project layout
 
 ```
-data/has/          Zephyr COSS HAS (top-level requirements)
-data/specs/        Zephyr COSS MAS (testable claims, traced to HAS)
+data/doc/          Zephyr COSS HAS + MAS (requirements + testable claims)
 data/decisions/    review/meeting decisions (authority + date)
-data/rtl/          Zephyr COSS SystemVerilog (with injected drift)
+data/rtl/          Zephyr COSS SystemVerilog (multi-file: top, CSR, FSM,\n                     arbiter, cache, accelerator; with injected drift)
 docs/reference/    original source docs (.docx) + design draw.io diagrams
 src/knowledge/     multi-source RAG store
 src/agents/        the agents (parse, ingest, resolve, trace, scan, map, sim)
@@ -167,7 +169,7 @@ src/milestones.py    milestone scope + cumulative gate logic
 src/orchestrator.py  end-to-end pipeline
 src/report.py        layered markdown report generator
 src/report_html.py   self-contained HTML dashboard generator
-examples/run_demo.py
+run_demo.py            CLI entry point
 ```
 
 ## Data note

@@ -290,6 +290,8 @@ html[data-theme="dark"] .pill {{ color:#1a1a1a; }}
 html[data-theme="dark"] .filters button.active {{ color:#1a1a1a; }}
 footer {{ text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-top:2.5rem; }}
 .note {{ font-size:.8rem; color:var(--cp-text-muted); margin-top:.6rem; }}
+.axes {{ margin-top:.7rem; font-size:.82rem; color:var(--cp-text-soft); }}
+.axes b {{ color:var(--cp-accent); }}
 </style>
 </head>
 <body>
@@ -305,6 +307,7 @@ footer {{ text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin
     <span>Knowledge <b>{rag}</b> chunks</span>
   </div>
   <div class="verdict {verdict_cls}">{verdict}</div>
+  <div class="axes">Two checks: <b>HAS → MAS</b> coverage (spec vs spec) &nbsp;·&nbsp; <b>MAS → RTL</b> conformance (spec vs implementation)</div>
 </div></header>
 
 <div class="wrap">
@@ -316,14 +319,14 @@ footer {{ text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin
   <h2>Summary</h2>
   <div class="chips">{chips}</div>
 
-  <h2>Traceability <span class="muted">— HAS → MAS → RTL</span></h2>
+  <h2>HAS → MAS Coverage <span class="muted">— spec vs spec · a gap = in HAS, not detailed in MAS</span></h2>
   <table><thead><tr><th>HAS</th><th>Kind</th><th>Requirement</th>
     <th>MAS claims</th><th>RTL rollup</th></tr></thead>
     <tbody>{trace_rows}</tbody></table>
 
   {conflicts}
 
-  <h2>Clause-by-Clause Findings</h2>
+  <h2>MAS → RTL Conformance <span class="muted">— spec vs implementation · drift / missing / undocumented</span></h2>
   <div class="filters" id="filters">
     <button data-f="all" class="active">All</button>
     <button data-f="0.1">0.1</button><button data-f="0.5">0.5</button>

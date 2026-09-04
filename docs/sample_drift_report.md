@@ -1,8 +1,9 @@
 # Spec-RTL Sentinel — Design Intent Ledger Report
 
-- **Generated:** 2026-09-04 16:11
+- **Generated:** 2026-09-04 16:29
 - **Milestone scope:** `1.0`  (HAS is the golden reference; MAS + RTL are checked against it)
-- **HAS:** `zephyr_coss_has.md` · **MAS:** `zephyr_coss_mas.md` · **RTL:** `zephyr_coss.sv`
+- **Two checks:** HAS → MAS coverage (spec vs spec) · MAS → RTL conformance (spec vs implementation)
+- **HAS:** `zephyr_coss_has.md` · **MAS:** `zephyr_coss_mas.md` · **RTL:** `rtl`
 - **Knowledge grounded:** DECISION=3, HAS=10, MAS=11 chunks
 
 ## 0. Milestone Gate Status
@@ -25,7 +26,9 @@
 
 **Verdict: 🚨 DRIFT / GAPS DETECTED**
 
-## 2. Traceability — HAS → MAS → RTL
+## 2. HAS → MAS Coverage  *(spec vs spec)*
+
+_Does every top-level HAS requirement have a MAS claim refining it? A **gap** = present in the HAS but never detailed in the MAS._
 
 | HAS req | Kind | Requirement | MAS claims | RTL rollup | Trace |
 | --- | --- | --- | --- | --- | --- |
@@ -49,7 +52,9 @@
 
 > ⚠️ A later review/decision overrides the stale MAS value. The MAS should be updated; flagged for human review.
 
-## 4. Clause-by-Clause Findings
+## 4. MAS → RTL Conformance  *(spec vs implementation)*
+
+_Does the RTL implement each MAS claim? Drift = implemented differently; missing = not implemented; undocumented = in RTL but no claim._
 
 | Claim | Milestone | Category | Status | Conf | Traces | Spec | Detail | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

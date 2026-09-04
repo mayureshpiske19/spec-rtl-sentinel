@@ -107,6 +107,8 @@ html[data-theme="dark"] .pill { color:#1a1a1a; }
 html[data-theme="dark"] .filters button.active { color:#1a1a1a; }
 footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-top:2.5rem; }
 .note { font-size:.8rem; color:var(--cp-text-muted); margin-top:.6rem; }
+.axes { margin-top:.7rem; font-size:.82rem; color:var(--cp-text-soft); }
+.axes b { color:var(--cp-accent); }
 </style>
 </head>
 <body>
@@ -116,12 +118,13 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
     <div class="sub">Design Intent Ledger — HAS is golden; MAS + RTL checked against it</div></div>
   </div>
   <div class="meta">
-    <span>Generated <b>2026-09-04 16:11</b></span>
+    <span>Generated <b>2026-09-04 16:29</b></span>
     <span>Milestone scope <b>1.0</b></span>
-    <span>HAS <b>zephyr_coss_has.md</b> · MAS <b>zephyr_coss_mas.md</b> · RTL <b>zephyr_coss.sv</b></span>
+    <span>HAS <b>zephyr_coss_has.md</b> · MAS <b>zephyr_coss_mas.md</b> · RTL <b>rtl</b></span>
     <span>Knowledge <b>DECISION=3, HAS=10, MAS=11</b> chunks</span>
   </div>
   <div class="verdict bad">DRIFT / GAPS DETECTED</div>
+  <div class="axes">Two checks: <b>HAS → MAS</b> coverage (spec vs spec) &nbsp;·&nbsp; <b>MAS → RTL</b> conformance (spec vs implementation)</div>
 </div></header>
 
 <div class="wrap">
@@ -157,7 +160,7 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
   <h2>Summary</h2>
   <div class="chips"><div class="chip ok"><span class="n">25</span><span class="t">Verified</span></div><div class="chip bad"><span class="n">1</span><span class="t">Drift</span></div><div class="chip bad"><span class="n">2</span><span class="t">Missing</span></div><div class="chip warn"><span class="n">1</span><span class="t">Undocumented</span></div><div class="chip warn"><span class="n">0</span><span class="t">Review</span></div><div class="chip warn"><span class="n">1</span><span class="t">Spec conflicts</span></div><div class="chip warn"><span class="n">1</span><span class="t">Traceability gaps</span></div></div>
 
-  <h2>Traceability <span class="muted">— HAS → MAS → RTL</span></h2>
+  <h2>HAS → MAS Coverage <span class="muted">— spec vs spec · a gap = in HAS, not detailed in MAS</span></h2>
   <table><thead><tr><th>HAS</th><th>Kind</th><th>Requirement</th>
     <th>MAS claims</th><th>RTL rollup</th></tr></thead>
     <tbody>
@@ -199,7 +202,7 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
         <td class="mono">0x058</td>
         <td><b>0x058</b><br><span class="muted">DEC-02 (design_review, 2026-09-02)</span></td></tr></tbody></table>
 
-  <h2>Clause-by-Clause Findings</h2>
+  <h2>MAS → RTL Conformance <span class="muted">— spec vs implementation · drift / missing / undocumented</span></h2>
   <div class="filters" id="filters">
     <button data-f="all" class="active">All</button>
     <button data-f="0.1">0.1</button><button data-f="0.5">0.5</button>

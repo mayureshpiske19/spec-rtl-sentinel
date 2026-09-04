@@ -156,7 +156,11 @@ def _check_fsm(rc: ResolvedClaim, facts: RTLFacts) -> Finding:
     c = rc.claim
     expected = {s.strip().upper() for s in rc.effective_expected.split(",")
                 if s.strip()}
-    actual = set(facts.fsm_states)
+    # Look up the FSM by the claim's target name (e.g. control_fsm); fall back
+    # to the primary FSM if the design has only one.
+    by_name = getattr(facts, "fsm_by_name", {}) or {}
+    states = by_name.get(c.target) or by_name.get(c.target + "_e") or facts.fsm_states
+    actual = set(states)
     missing = expected - actual
     extra = actual - expected
     if not missing and not extra:
