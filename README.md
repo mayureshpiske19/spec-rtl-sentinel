@@ -1,4 +1,4 @@
-# Spec-RTL Sentinel — Design Intent Ledger
+# Spec-RTL Sentinel — Design Intent Auditor
 
 **Agentic RAG that checks RTL against the *entire chain of design intent* — HAS → MAS → decisions → RTL — and reports where the as-built silicon drifts from the as-agreed intent.**
 
@@ -68,7 +68,7 @@ RTL. That's drift no single-document checker can catch.
 | **RTL Scanner** | Parses SystemVerilog into structured facts (port widths, CSR map, FSM) |
 | **Mapper / Diff** | Diffs resolved claims vs RTL; classifies + attaches the evidence chain |
 | **Sim Checker** | Confirms dynamic claims via simulation (Icarus Verilog) |
-| **Report Generator** | Emits the layered Design Intent Ledger report |
+| **Report Generator** | Emits the layered Design Intent Auditor report |
 
 All grounded in a dependency-free **RAG store** (`src/knowledge/rag_store.py`).
 
@@ -89,7 +89,7 @@ conflict, flag a traceability gap, and explain an undocumented register.
 
 Two reports are written on every run:
 
-- `reports/drift_report.md` — the markdown ledger
+- `reports/drift_report.md` — the markdown report
 - `reports/drift_report.html` — a **self-contained, styled dashboard** (no
   external resources; opens locally or shares as a single file)
 

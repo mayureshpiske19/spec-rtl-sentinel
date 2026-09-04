@@ -8,7 +8,7 @@
 ---
 
 ## [0:00–0:15] — The Hook
-*(On screen: title slide — "Spec-RTL Sentinel: Design Intent Ledger")*
+*(On screen: title slide — "Spec-RTL Sentinel: Design Intent Auditor")*
 
 "Every chip begins as intent — a high-level spec, refined into a
 micro-architecture spec, then implemented as RTL. But intent drifts. A bus

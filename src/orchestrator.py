@@ -1,5 +1,5 @@
 """
-Orchestrator — Design Intent Ledger pipeline
+Orchestrator — Design Intent Auditor pipeline
 ---------------------------------------------
 
     HAS  ─▶ HAS Parser        ─▶ requirements ─┐

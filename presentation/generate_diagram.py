@@ -60,7 +60,7 @@ def right(b):   x, y, w, h = b; return (x + w, y + h / 2)
 # ---- Title ----
 ax.text(0.6, 8.62, "Spec-RTL Sentinel", fontsize=27, fontweight="bold",
         color="#12324F", ha="left", va="center")
-ax.text(0.62, 8.16, "Design Intent Ledger — agentic RAG for spec-faithful RTL verification",
+ax.text(0.62, 8.16, "Design Intent Auditor — agentic RAG for spec-faithful RTL verification",
         fontsize=13.5, color="#5A6473", ha="left", va="center")
 
 # ---- Layer captions (left rail) ----
@@ -115,7 +115,7 @@ arrow(bottom(rsc), (7.15, y5 + h5 * 0.7), color="#0E6B0E")
 # ---- Sim checker + Report (below mapper) ----
 y6, h6 = 0.35, 0.8
 sim = box(3.15, y6, 2.0, h6, SLATE, "Sim Checker", "confirm", tfs=12, sfs=9)
-rep = box(5.35, y6, 2.0, h6, SLATE, "Report Gen", "ledger", tfs=12, sfs=9)
+rep = box(5.35, y6, 2.0, h6, SLATE, "Report Gen", "audit report", tfs=12, sfs=9)
 arrow((4.15, y5), top(sim))
 arrow(right(sim), left(rep), color="#5A6473")
 
@@ -128,7 +128,7 @@ panel = FancyBboxPatch((px, py), pw, ph,
 ax.add_patch(panel)
 ax.text(px + pw / 2, py + ph - 0.4, "Drift Report", fontsize=15,
         fontweight="bold", color="#12324F", ha="center", va="center")
-ax.text(px + pw / 2, py + ph - 0.8, "Design Intent Ledger", fontsize=10.5,
+ax.text(px + pw / 2, py + ph - 0.8, "Design Intent Auditor", fontsize=10.5,
         color="#5A6473", ha="center", va="center", style="italic")
 
 outcomes = [

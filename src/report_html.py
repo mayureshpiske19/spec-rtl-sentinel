@@ -1,7 +1,7 @@
 """
 HTML Drift-Report UI
 --------------------
-Renders the Design Intent Ledger as a self-contained, styled HTML dashboard
+Renders the Design Intent Auditor as a self-contained, styled HTML dashboard
 (no external resources — safe to open locally or share). This is a first-class
 product output alongside the markdown report.
 
@@ -298,7 +298,7 @@ footer {{ text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin
 <header><div class="wrap">
   <div class="brand"><span class="dot"></span>
     <div><h1>Spec-RTL Sentinel</h1>
-    <div class="sub">Design Intent Ledger — HAS is golden; MAS + RTL checked against it</div></div>
+    <div class="sub">Design Intent Auditor — HAS is golden; MAS + RTL checked against it</div></div>
   </div>
   <div class="meta">
     <span>Generated <b>{generated}</b></span>

@@ -7,7 +7,7 @@
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-1" parent="1" style="text;html=1;fontSize=30;fontStyle=1;fontColor=#12324F;align=left;verticalAlign=middle;" value="Spec-RTL Sentinel" vertex="1">
           <mxGeometry height="40" width="600" x="430" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-2" parent="1" style="text;html=1;fontSize=15;fontColor=#5A6473;align=left;verticalAlign=middle;" value="Design Intent Ledger — agentic RAG for spec-faithful RTL verification" vertex="1">
+        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-2" parent="1" style="text;html=1;fontSize=15;fontColor=#5A6473;align=left;verticalAlign=middle;" value="Design Intent Auditor — agentic RAG for spec-faithful RTL verification" vertex="1">
           <mxGeometry height="26" width="760" x="432" y="100" as="geometry" />
         </mxCell>
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6E8FA;strokeColor=#0F5EA8;strokeWidth=2;fontColor=#0F5EA8;fontSize=16;verticalAlign=middle;" value="&lt;b&gt;HAS&lt;/b&gt;&lt;br&gt;&lt;font&gt;top-level intent&lt;/font&gt;" vertex="1">
@@ -55,7 +55,7 @@
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F7FAFD;strokeColor=#12324F;strokeWidth=2;verticalAlign=top;fontSize=18;" value="" vertex="1">
           <mxGeometry height="710" width="350" x="1210" y="186" as="geometry" />
         </mxCell>
-        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-18" parent="1" style="text;html=1;fontSize=18;fontColor=#12324F;align=center;verticalAlign=middle;" value="&lt;b&gt;Drift Report&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;color: rgb(90, 100, 115);&quot;&gt;Design Intent Ledger&lt;/i&gt;" vertex="1">
+        <mxCell id="jbXzuQI50v_D8Vw7ZBHW-18" parent="1" style="text;html=1;fontSize=18;fontColor=#12324F;align=center;verticalAlign=middle;" value="&lt;b&gt;Drift Report&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;color: rgb(90, 100, 115);&quot;&gt;Design Intent Auditor&lt;/i&gt;" vertex="1">
           <mxGeometry height="50" width="320" x="1210" y="206" as="geometry" />
         </mxCell>
         <mxCell id="jbXzuQI50v_D8Vw7ZBHW-19" parent="1" style="text;html=1;fontSize=18;fontColor=#0E6B0E;align=left;verticalAlign=middle;" value="&lt;b&gt;✔ Verified&lt;/b&gt;&amp;nbsp;&amp;nbsp;&lt;font style=&quot;color: rgb(90, 100, 115);&quot;&gt;matches intent&lt;/font&gt;" vertex="1">

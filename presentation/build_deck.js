@@ -3,7 +3,7 @@ const pptxgen = require("pptxgenjs");
 const p = new pptxgen();
 p.layout = "LAYOUT_WIDE"; // 13.3 x 7.5
 p.author = "Mayuresh Piske";
-p.title = "Spec-RTL Sentinel — Design Intent Ledger";
+p.title = "Spec-RTL Sentinel — Design Intent Auditor";
 
 const W = 13.3, Hh = 7.5;
 
@@ -30,7 +30,7 @@ let s = p.addSlide();
 s.background = { color: NAVY };
 s.addShape(p.shapes.RECTANGLE, { x: 0, y: 0, w: 0.28, h: Hh, fill: { color: TEAL } });
 s.addText("SPEC-RTL SENTINEL", { x: 0.9, y: 2.05, w: 11.6, h: 1.1, fontFace: HF, fontSize: 52, bold: true, color: "FFFFFF", align: "left", margin: 0 });
-s.addText("Design Intent Ledger", { x: 0.95, y: 3.15, w: 11, h: 0.7, fontFace: HF, fontSize: 27, italic: true, color: "7FD4E0", align: "left", margin: 0 });
+s.addText("Design Intent Auditor", { x: 0.95, y: 3.15, w: 11, h: 0.7, fontFace: HF, fontSize: 27, italic: true, color: "7FD4E0", align: "left", margin: 0 });
 s.addText("Agentic RAG that catches spec-to-silicon drift before it becomes a bug.", { x: 0.95, y: 3.95, w: 11, h: 0.5, fontFace: BF, fontSize: 16, color: "CADCFC", align: "left", margin: 0 });
 // layer motif
 const layers = [["HAS", "0F5EA8"], ["MAS", PURPLE], ["Decisions", ORANGE], ["RTL", GREEN]];
@@ -89,7 +89,7 @@ il.forEach(([t, c, d, tag, hot]) => {
 // ---------------------------------------------------------------- SLIDE 4 — Solution
 s = p.addSlide(); s.background = { color: ICE };
 kicker(s, "What It Does");
-title(s, "One ledger across every layer of intent");
+title(s, "One audit across every layer of intent");
 s.addText("Sentinel ingests all four layers into a RAG store, reconciles conflicts by authority, and checks RTL against the resolved intent — producing a clause-by-clause drift report.", { x: 0.7, y: 1.9, w: 11.9, h: 0.75, fontFace: BF, fontSize: 17, color: INK, margin: 0 });
 const steps = [["1", "Ingest", "HAS + MAS + decisions + RTL into a grounded RAG store"],
 ["2", "Reconcile", "Authority resolver settles spec-vs-decision conflicts by seniority + recency"],
@@ -123,7 +123,7 @@ const agents = [["HAS Parser", "Extracts top-level requirements"],
 ["Traceability", "HAS→MAS→RTL coverage + gaps"],
 ["Mapper / Diff", "Resolved claims × RTL facts"],
 ["Sim Checker", "Confirms dynamic claims"],
-["Report Generator", "Layered drift ledger"]];
+["Report Generator", "Layered drift report"]];
 let ax = 0.7, ay = 2.0, aw = 3.9, ah = 1.5, gap = 0.13;
 agents.forEach((a, i) => {
   const col = i % 3, row = Math.floor(i / 3);

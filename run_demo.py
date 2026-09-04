@@ -1,5 +1,5 @@
 """
-Demo entry point — Design Intent Ledger.
+Demo entry point — Design Intent Auditor.
 
 Usage:
     python run_demo.py
@@ -20,7 +20,7 @@ from src.orchestrator import run_pipeline  # noqa: E402
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Spec-RTL Sentinel — Design Intent Ledger")
+    ap = argparse.ArgumentParser(description="Spec-RTL Sentinel — Design Intent Auditor")
     ap.add_argument("--has", default="data/doc/zephyr_coss_has.md")
     ap.add_argument("--spec", default="data/doc/zephyr_coss_mas.md")
     ap.add_argument("--rtl", default="data/rtl",
@@ -37,7 +37,7 @@ def main() -> int:
                      use_llm=args.llm, milestone=args.milestone)
 
     print("=" * 72)
-    print("Spec-RTL Sentinel — Design Intent Ledger")
+    print("Spec-RTL Sentinel — Design Intent Auditor")
     print("=" * 72)
     print(f"Knowledge ingested : {r.rag_stats}  (HAS/MAS/DECISION chunks)")
     print(f"HAS requirements   : {len(r.has_reqs)}   (golden reference)")

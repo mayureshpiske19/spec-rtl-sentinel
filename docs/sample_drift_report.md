@@ -1,6 +1,6 @@
-# Spec-RTL Sentinel — Design Intent Ledger Report
+# Spec-RTL Sentinel — Design Intent Auditor Report
 
-- **Generated:** 2026-09-04 16:29
+- **Generated:** 2026-09-04 19:04
 - **Milestone scope:** `1.0`  (HAS is the golden reference; MAS + RTL are checked against it)
 - **Two checks:** HAS → MAS coverage (spec vs spec) · MAS → RTL conformance (spec vs implementation)
 - **HAS:** `zephyr_coss_has.md` · **MAS:** `zephyr_coss_mas.md` · **RTL:** `rtl`

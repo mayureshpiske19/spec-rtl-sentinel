@@ -58,7 +58,7 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     ]
 
     L: List[str] = []
-    L.append("# Spec-RTL Sentinel — Design Intent Ledger Report")
+    L.append("# Spec-RTL Sentinel — Design Intent Auditor Report")
     L.append("")
     L.append(f"- **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     L.append(f"- **Milestone scope:** `{milestone}`  "
