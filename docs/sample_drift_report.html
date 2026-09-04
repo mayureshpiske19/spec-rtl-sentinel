@@ -116,10 +116,10 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
     <div class="sub">Design Intent Ledger — HAS is golden; MAS + RTL checked against it</div></div>
   </div>
   <div class="meta">
-    <span>Generated <b>2026-09-04 15:15</b></span>
+    <span>Generated <b>2026-09-04 16:11</b></span>
     <span>Milestone scope <b>1.0</b></span>
-    <span>HAS <b>sample_has.md</b> · MAS <b>sample_mas.md</b> · RTL <b>sample_ciu_axi_sub.sv</b></span>
-    <span>Knowledge <b>DECISION=3, HAS=8, MAS=9</b> chunks</span>
+    <span>HAS <b>zephyr_coss_has.md</b> · MAS <b>zephyr_coss_mas.md</b> · RTL <b>zephyr_coss.sv</b></span>
+    <span>Knowledge <b>DECISION=3, HAS=10, MAS=11</b> chunks</span>
   </div>
   <div class="verdict bad">DRIFT / GAPS DETECTED</div>
 </div></header>
@@ -131,70 +131,73 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
           <div class="gate-top"><span class="ms">0.1</span>
             <span class="badge bad">FAIL</span></div>
           <div class="gate-label">Boundary — ports + CSR registers</div>
-          <div class="gate-sub">2 fail · 0 gap · 5 checked</div>
+          <div class="gate-sub">1 fail · 0 gap · 12 checked</div>
         </div>
         <div class="gate bad">
           <div class="gate-top"><span class="ms">0.5</span>
             <span class="badge bad">FAIL</span></div>
           <div class="gate-label">+ Functional behavior (FSM, datapath)</div>
-          <div class="gate-sub">3 fail · 0 gap · 6 checked</div>
+          <div class="gate-sub">2 fail · 0 gap · 13 checked</div>
         </div>
         <div class="gate bad">
           <div class="gate-top"><span class="ms">0.8</span>
             <span class="badge bad">FAIL</span></div>
           <div class="gate-label">+ Errors, DFT, perf counters, debug</div>
-          <div class="gate-sub">4 fail · 1 gap · 10 checked</div>
+          <div class="gate-sub">3 fail · 0 gap · 29 checked</div>
         </div>
         <div class="gate bad">
           <div class="gate-top"><span class="ms">1.0</span>
             <span class="badge bad">FAIL</span></div>
           <div class="gate-label">Overall / integration — everything</div>
-          <div class="gate-sub">4 fail · 1 gap · 10 checked</div>
+          <div class="gate-sub">3 fail · 1 gap · 29 checked</div>
         </div></div>
   <div class="note">Gates are cumulative: each milestone re-checks everything below it.
     A gate passes only when every in-scope claim is verified with no traceability gap.</div>
 
   <h2>Summary</h2>
-  <div class="chips"><div class="chip ok"><span class="n">5</span><span class="t">Verified</span></div><div class="chip bad"><span class="n">1</span><span class="t">Drift</span></div><div class="chip bad"><span class="n">3</span><span class="t">Missing</span></div><div class="chip warn"><span class="n">1</span><span class="t">Undocumented</span></div><div class="chip warn"><span class="n">0</span><span class="t">Review</span></div><div class="chip warn"><span class="n">1</span><span class="t">Spec conflicts</span></div><div class="chip warn"><span class="n">1</span><span class="t">Traceability gaps</span></div></div>
+  <div class="chips"><div class="chip ok"><span class="n">25</span><span class="t">Verified</span></div><div class="chip bad"><span class="n">1</span><span class="t">Drift</span></div><div class="chip bad"><span class="n">2</span><span class="t">Missing</span></div><div class="chip warn"><span class="n">1</span><span class="t">Undocumented</span></div><div class="chip warn"><span class="n">0</span><span class="t">Review</span></div><div class="chip warn"><span class="n">1</span><span class="t">Spec conflicts</span></div><div class="chip warn"><span class="n">1</span><span class="t">Traceability gaps</span></div></div>
 
   <h2>Traceability <span class="muted">— HAS → MAS → RTL</span></h2>
   <table><thead><tr><th>HAS</th><th>Kind</th><th>Requirement</th>
     <th>MAS claims</th><th>RTL rollup</th></tr></thead>
     <tbody>
-        <tr><td class="mono">HAS-01</td><td>concept</td>
-        <td>CSR block exposed to SoC fabric via an AXI4 subordinate interface</td><td class="mono">CLAIM-02</td>
-        <td><span class="badge ok">VERIFIED</span></td></tr>
-        <tr><td class="mono">HAS-02</td><td>performance</td>
-        <td>Fabric data path is 64-bit wide for target throughput</td><td class="mono">CLAIM-01</td>
+        <tr><td class="mono">HAS-01</td><td>interface</td>
+        <td>AXI4 multi-master datapath with a 64-bit memory data width</td><td class="mono">CLAIM-01, CLAIM-02</td>
         <td><span class="badge bad">DRIFT</span></td></tr>
-        <tr><td class="mono">HAS-03</td><td>security</td>
-        <td>Secret boot key (BEK) provisioned by security engine into a dedicated register</td><td class="mono">CLAIM-05</td>
+        <tr><td class="mono">HAS-02</td><td>interface</td>
+        <td>Firmware CSR / job-descriptor interface over AXI4-Lite</td><td class="mono">CLAIM-03, CLAIM-04, CLAIM-05, CLAIM-06, CLAIM-07, CLAIM-08, CLAIM-09, CLAIM-10, CLAIM-11, CLAIM-12</td>
         <td><span class="badge ok">VERIFIED</span></td></tr>
-        <tr><td class="mono">HAS-04</td><td>concept</td>
-        <td>Block control managed by an FSM with explicit error handling</td><td class="mono">CLAIM-03, CLAIM-04, CLAIM-06</td>
+        <tr><td class="mono">HAS-03</td><td>function</td>
+        <td>LZ77 compression engine driven by a job-sequencer FSM</td><td class="mono">CLAIM-13</td>
         <td><span class="badge bad">MISSING</span></td></tr>
-        <tr><td class="mono">HAS-05</td><td>performance</td>
-        <td>CSR reads complete with single-cycle latency</td><td class="mono">—</td>
-        <td><span class="badge bad">GAP</span></td></tr>
+        <tr><td class="mono">HAS-04</td><td>function</td>
+        <td>QoS arbiter with round-robin and selectable priority modes</td><td class="mono">CLAIM-23</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
+        <tr><td class="mono">HAS-05</td><td>function</td>
+        <td>L2 cache for the history window and job descriptors</td><td class="mono">CLAIM-21</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
         <tr><td class="mono">HAS-06</td><td>reliability</td>
-        <td>Fault conditions reported via an error-status register</td><td class="mono">CLAIM-07</td>
+        <td>Classified error detection, capture, and reporting</td><td class="mono">CLAIM-14, CLAIM-15, CLAIM-16</td>
         <td><span class="badge ok">VERIFIED</span></td></tr>
-        <tr><td class="mono">HAS-07</td><td>testability</td>
-        <td>Scan-based DFT supported via a scan-enable control</td><td class="mono">CLAIM-08</td>
+        <tr><td class="mono">HAS-07</td><td>performance</td>
+        <td>Performance counters (bytes, jobs, cycles, cache hits/misses)</td><td class="mono">CLAIM-17, CLAIM-18, CLAIM-19, CLAIM-20, CLAIM-22</td>
         <td><span class="badge bad">MISSING</span></td></tr>
-        <tr><td class="mono">HAS-08</td><td>performance</td>
-        <td>Performance counter exposes transaction activity</td><td class="mono">CLAIM-09</td>
-        <td><span class="badge ok">VERIFIED</span></td></tr></tbody></table>
+        <tr><td class="mono">HAS-08</td><td>debug</td>
+        <td>Debug/observability: FSM/job state, trace, breakpoints, DFT</td><td class="mono">CLAIM-24, CLAIM-25, CLAIM-26, CLAIM-27, CLAIM-28</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
+        <tr><td class="mono">HAS-09</td><td>portability</td>
+        <td>Optional multi-clock CDC bridging between CSR and datapath</td><td class="mono">—</td>
+        <td><span class="badge bad">GAP</span></td></tr></tbody></table>
 
   
       <h2>Spec Conflicts <span class="muted">— resolved by authority + recency</span></h2>
       <table><thead><tr><th>Target</th><th>Property</th><th>MAS says</th>
       <th>Decision says</th><th>Resolved</th></tr></thead>
       <tbody>
-        <tr><td class="mono">STATUS</td><td>offset</td>
-        <td class="mono">0x04</td>
-        <td class="mono">0x08</td>
-        <td><b>0x08</b><br><span class="muted">DEC-02 (design_review, 2026-08-25)</span></td></tr></tbody></table>
+        <tr><td class="mono">INT_STATUS</td><td>offset</td>
+        <td class="mono">0x054</td>
+        <td class="mono">0x058</td>
+        <td><b>0x058</b><br><span class="muted">DEC-02 (design_review, 2026-09-02)</span></td></tr></tbody></table>
 
   <h2>Clause-by-Clause Findings</h2>
   <div class="filters" id="filters">
@@ -211,9 +214,9 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
           <td><span class="cat">boundary</span></td>
           <td><span class="badge bad">Drift</span></td>
           <td><span class="badge ok sm">high</span></td>
-          <td class="mono">HAS-02</td>
-          <td>&#x27;s_axi_wdata&#x27; is 32 bits but required 64.<span class="muted"> · backing: DEC-01</span></td>
-          <td class="ev mono">[MAS §2.1] The CSR write-data bus `s_axi_wdata` shall be **64 bits** wide to match the SSS fabric data width.</td>
+          <td class="mono">HAS-01</td>
+          <td>&#x27;m_axi_wdata&#x27; is 32 bits but required 64.<span class="muted"> · backing: DEC-01</span></td>
+          <td class="ev mono">[MAS §2.1] The accelerator memory write-data bus `m_axi_wdata` shall be **64 bits** wide to match the SoC data path.</td>
         </tr>
         <tr data-cat="boundary" data-ms="0.1">
           <td class="mono">CLAIM-02</td>
@@ -223,27 +226,27 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
           <td><span class="badge ok sm">high</span></td>
           <td class="mono">HAS-01</td>
           <td>Reset &#x27;aresetn&#x27; is active-low as specified.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §2.2] The block shall use an **active-low** asynchronous reset named `aresetn`.</td>
+          <td class="ev mono">[MAS §2.2] The CSR block shall use an **active-low**, asynchronous-assert / synchronous-release reset named `aresetn`.</td>
         </tr>
-        <tr data-cat="csr" data-ms="0.1">
+        <tr data-cat="boundary" data-ms="0.1">
           <td class="mono">CLAIM-03</td>
           <td><span class="pill">0.1</span></td>
-          <td><span class="cat">csr</span></td>
+          <td><span class="cat">boundary</span></td>
           <td><span class="badge ok">Verified</span></td>
           <td><span class="badge ok sm">high</span></td>
-          <td class="mono">HAS-04</td>
-          <td>Register &#x27;CTRL&#x27; at 0x00 matches spec.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §3.1] `CTRL` register at byte offset **0x00** (read/write), reset value 0x0.</td>
+          <td class="mono">HAS-02</td>
+          <td>&#x27;s_axi_awaddr&#x27; width 12 bits matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §2.3] The CSR address bus `s_axi_awaddr` shall be **12 bits** wide (covers the 0x000–0x06C register space).</td>
         </tr>
         <tr data-cat="csr" data-ms="0.1">
           <td class="mono">CLAIM-04</td>
           <td><span class="pill">0.1</span></td>
           <td><span class="cat">csr</span></td>
-          <td><span class="badge bad">Missing</span></td>
-          <td><span class="badge bad sm">review</span></td>
-          <td class="mono">HAS-04</td>
-          <td>Register &#x27;STATUS&#x27; (required offset 0x08) is not implemented in RTL.<span class="muted"> · backing: DEC-02</span></td>
-          <td class="ev mono">[MAS §3.2] `STATUS` register at byte offset **0x04** (read-only).</td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;CTRL&#x27; at 0x000 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.1] Control/config/status: `CTRL` **0x000**, `CFG` **0x004**, `STATUS` **0x008**.</td>
         </tr>
         <tr data-cat="csr" data-ms="0.1">
           <td class="mono">CLAIM-05</td>
@@ -251,49 +254,239 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
           <td><span class="cat">csr</span></td>
           <td><span class="badge ok">Verified</span></td>
           <td><span class="badge ok sm">high</span></td>
-          <td class="mono">HAS-03</td>
-          <td>Register &#x27;BEK_KEY&#x27; at 0x10 matches spec.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §3.3] `BEK_KEY` register at byte offset **0x10** (write-only), written by the security engine during initialization.</td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;CFG&#x27; at 0x004 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.1] Control/config/status: `CTRL` **0x000**, `CFG` **0x004**, `STATUS` **0x008**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-06</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;STATUS&#x27; at 0x008 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.1] Control/config/status: `CTRL` **0x000**, `CFG` **0x004**, `STATUS` **0x008**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-07</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;RING_BASE&#x27; at 0x010 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.2] Job ring: `RING_BASE` **0x010**, `RING_HEAD` **0x014**, `RING_TAIL` **0x018**, `RING_SIZE` **0x01C**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-08</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;RING_HEAD&#x27; at 0x014 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.2] Job ring: `RING_BASE` **0x010**, `RING_HEAD` **0x014**, `RING_TAIL` **0x018**, `RING_SIZE` **0x01C**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-09</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;RING_TAIL&#x27; at 0x018 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.2] Job ring: `RING_BASE` **0x010**, `RING_HEAD` **0x014**, `RING_TAIL` **0x018**, `RING_SIZE` **0x01C**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-10</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;RING_SIZE&#x27; at 0x01c matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.2] Job ring: `RING_BASE` **0x010**, `RING_HEAD` **0x014**, `RING_TAIL` **0x018**, `RING_SIZE` **0x01C**.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-11</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;INT_EN&#x27; at 0x050 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.5] Interrupt: `INT_EN` **0x050**, `INT_STATUS` **0x054** (W1C).</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-12</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge bad sm">review</span></td>
+          <td class="mono">HAS-02</td>
+          <td>Register &#x27;INT_STATUS&#x27; at 0x058 matches spec.<span class="muted"> · backing: DEC-02</span></td>
+          <td class="ev mono">[MAS §3.5] Interrupt: `INT_EN` **0x050**, `INT_STATUS` **0x054** (W1C).</td>
         </tr>
         <tr data-cat="functional" data-ms="0.5">
-          <td class="mono">CLAIM-06</td>
+          <td class="mono">CLAIM-13</td>
           <td><span class="pill">0.5</span></td>
           <td><span class="cat">functional</span></td>
           <td><span class="badge bad">Missing</span></td>
           <td><span class="badge warn sm">medium</span></td>
-          <td class="mono">HAS-04</td>
-          <td>FSM &#x27;ciu_fsm&#x27;: missing [&#x27;ERROR&#x27;].<span class="muted"></span></td>
-          <td class="ev mono">[MAS §4.1] The control FSM `ciu_fsm` shall implement the states **IDLE, ACTIVE, ERROR**.</td>
+          <td class="mono">HAS-03</td>
+          <td>FSM &#x27;control_fsm&#x27;: missing [&#x27;WRITE_OUT&#x27;].<span class="muted"></span></td>
+          <td class="ev mono">[MAS §4.1] The job-sequencer FSM `control_fsm` shall implement the states **IDLE, FETCH_JOB, LOAD_DATA, COMPRESS, WRITE_OUT, DONE**.</td>
         </tr>
         <tr data-cat="error" data-ms="0.8">
-          <td class="mono">CLAIM-07</td>
+          <td class="mono">CLAIM-14</td>
           <td><span class="pill">0.8</span></td>
           <td><span class="cat">error</span></td>
           <td><span class="badge ok">Verified</span></td>
           <td><span class="badge ok sm">high</span></td>
           <td class="mono">HAS-06</td>
-          <td>Register &#x27;ERR_STATUS&#x27; at 0x0c matches spec.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §5.1] `ERR_STATUS` register at byte offset **0x0C** (read-only) reports fault conditions.</td>
+          <td>Register &#x27;ERROR&#x27; at 0x040 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.4] Error: `ERROR` **0x040** (W1C), `ERR_ADDR` **0x044**, `ERR_INFO` **0x048**.</td>
         </tr>
-        <tr data-cat="dft" data-ms="0.8">
-          <td class="mono">CLAIM-08</td>
+        <tr data-cat="error" data-ms="0.8">
+          <td class="mono">CLAIM-15</td>
           <td><span class="pill">0.8</span></td>
-          <td><span class="cat">dft</span></td>
-          <td><span class="badge bad">Missing</span></td>
-          <td><span class="badge warn sm">medium</span></td>
-          <td class="mono">HAS-07</td>
-          <td>Signal &#x27;scan_en&#x27; not found in RTL.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §5.2] A scan-enable input `scan_en` (1 bit) controls scan-based DFT.</td>
+          <td><span class="cat">error</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-06</td>
+          <td>Register &#x27;ERR_ADDR&#x27; at 0x044 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.4] Error: `ERROR` **0x040** (W1C), `ERR_ADDR` **0x044**, `ERR_INFO` **0x048**.</td>
+        </tr>
+        <tr data-cat="error" data-ms="0.8">
+          <td class="mono">CLAIM-16</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">error</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-06</td>
+          <td>Register &#x27;ERR_INFO&#x27; at 0x048 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.4] Error: `ERROR` **0x040** (W1C), `ERR_ADDR` **0x044**, `ERR_INFO` **0x048**.</td>
         </tr>
         <tr data-cat="perf" data-ms="0.8">
-          <td class="mono">CLAIM-09</td>
+          <td class="mono">CLAIM-17</td>
           <td><span class="pill">0.8</span></td>
           <td><span class="cat">perf</span></td>
           <td><span class="badge ok">Verified</span></td>
           <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Register &#x27;PERF_BYTES_IN&#x27; at 0x020 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-18</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Register &#x27;PERF_BYTES_OUT&#x27; at 0x024 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-19</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Register &#x27;PERF_JOBS&#x27; at 0x028 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-20</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Register &#x27;PERF_CYCLES&#x27; at 0x02c matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-21</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-05</td>
+          <td>Register &#x27;PERF_HITS&#x27; at 0x030 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-22</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge bad">Missing</span></td>
+          <td><span class="badge warn sm">medium</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Register &#x27;PERF_MISS&#x27; (required offset 0x034) is not implemented in RTL.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-23</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-04</td>
+          <td>Register &#x27;ARB_GRANTS&#x27; at 0x038 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] Performance counters: `PERF_BYTES_IN` **0x020**, `PERF_BYTES_OUT` **0x024**, `PERF_JOBS` **0x028**, `PERF_CYCLES` **0x02C**, `PERF_HITS` **0</td>
+        </tr>
+        <tr data-cat="debug" data-ms="0.8">
+          <td class="mono">CLAIM-24</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">debug</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
           <td class="mono">HAS-08</td>
-          <td>Register &#x27;PERF_CNT&#x27; at 0x14 matches spec.<span class="muted"></span></td>
-          <td class="ev mono">[MAS §5.3] `PERF_CNT` register at byte offset **0x14** (read-only) counts transactions.</td>
+          <td>Register &#x27;DBG_CTRL&#x27; at 0x060 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.6] Debug: `DBG_CTRL` **0x060**, `DBG_STATE` **0x064**, `DBG_OBS_SEL` **0x068**, `DBG_TRACE` **0x06C**.</td>
+        </tr>
+        <tr data-cat="debug" data-ms="0.8">
+          <td class="mono">CLAIM-25</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">debug</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-08</td>
+          <td>Register &#x27;DBG_STATE&#x27; at 0x064 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.6] Debug: `DBG_CTRL` **0x060**, `DBG_STATE` **0x064**, `DBG_OBS_SEL` **0x068**, `DBG_TRACE` **0x06C**.</td>
+        </tr>
+        <tr data-cat="debug" data-ms="0.8">
+          <td class="mono">CLAIM-26</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">debug</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-08</td>
+          <td>Register &#x27;DBG_OBS_SEL&#x27; at 0x068 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.6] Debug: `DBG_CTRL` **0x060**, `DBG_STATE` **0x064**, `DBG_OBS_SEL` **0x068**, `DBG_TRACE` **0x06C**.</td>
+        </tr>
+        <tr data-cat="debug" data-ms="0.8">
+          <td class="mono">CLAIM-27</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">debug</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-08</td>
+          <td>Register &#x27;DBG_TRACE&#x27; at 0x06c matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.6] Debug: `DBG_CTRL` **0x060**, `DBG_STATE` **0x064**, `DBG_OBS_SEL` **0x068**, `DBG_TRACE` **0x06C**.</td>
+        </tr>
+        <tr data-cat="dft" data-ms="0.8">
+          <td class="mono">CLAIM-28</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">dft</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-08</td>
+          <td>&#x27;scan_en&#x27; width 1 bits matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §5.1] A scan-enable input `scan_en` (1 bit) shall control scan-based DFT.</td>
         </tr>
         <tr data-cat="debug" data-ms="0.8">
           <td class="mono">RTL-EXTRA</td>
@@ -302,22 +495,22 @@ footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-
           <td><span class="badge warn">Undocumented</span></td>
           <td><span class="badge warn sm">medium</span></td>
           <td class="mono">—</td>
-          <td>RTL register ADDR_DEBUG at 0x20 has no matching spec claim. Context: DEC-03 (meeting, 2026-07-30) notes it as a known temporary hook.<span class="muted"> · backing: DEC-03</span></td>
-          <td class="ev mono">[DECISION DEC-03] Bring-up sync meeting. A DEBUG_SCRATCH register may be added temporarily at 0x20 to aid silicon bring-up. It is explicitly NOT part of the HAS or MAS and must b</td>
+          <td>RTL register ADDR_DBG_SCRATCH at 0x070 has no matching spec claim. Context: DEC-03 (meeting, 2026-08-20) notes it as a known temporary hook.<span class="muted"> · backing: DEC-03</span></td>
+          <td class="ev mono">[DECISION DEC-03] Bring-up sync meeting. A DBG_SCRATCH register may be added temporarily at 0x070 to park observation-bus state during silicon bring-up. It is explicitly NOT part</td>
         </tr></tbody></table>
 
   <h2>Decisions Considered</h2>
   <table><thead><tr><th>ID</th><th>Date</th><th>Authority</th><th>Type</th>
     <th>Amends</th><th>Change</th></tr></thead><tbody>
-        <tr><td class="mono">DEC-03</td><td>2026-07-30</td>
+        <tr><td class="mono">DEC-03</td><td>2026-08-20</td>
         <td>meeting</td><td>discussion</td><td>none</td>
-        <td class="mono">DEBUG.note=temporary</td></tr>
-        <tr><td class="mono">DEC-01</td><td>2026-08-12</td>
+        <td class="mono">DBG_SCRATCH.note=temporary</td></tr>
+        <tr><td class="mono">DEC-01</td><td>2026-08-28</td>
         <td>arch_review</td><td>decision</td><td>none</td>
-        <td class="mono">s_axi_wdata.width_bits=64</td></tr>
-        <tr><td class="mono">DEC-02</td><td>2026-08-25</td>
-        <td>design_review</td><td>decision</td><td>MAS §3.2</td>
-        <td class="mono">STATUS.offset=0x08</td></tr></tbody></table>
+        <td class="mono">m_axi_wdata.width_bits=64</td></tr>
+        <tr><td class="mono">DEC-02</td><td>2026-09-02</td>
+        <td>design_review</td><td>decision</td><td>MAS §3.5</td>
+        <td class="mono">INT_STATUS.offset=0x058</td></tr></tbody></table>
 
   <footer>Spec-RTL Sentinel · every finding cites its exact source · runs fully offline</footer>
 </div>

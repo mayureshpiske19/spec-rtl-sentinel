@@ -43,26 +43,29 @@ recency — a newer design review outranks a stale spec."
 ## [0:55–1:35] — Live Demo (the money shot)
 *(On screen: terminal — run `python examples/run_demo.py`, then the report)*
 
-"Here it is on a real example. One command… and in seconds Sentinel produces a
-clause-by-clause drift report. Watch what it catches. The RTL bus is
-thirty-two bits — but the spec *and* an architecture review both demand
-sixty-four. That's a high-confidence drift. The STATUS register? The spec says
-offset four, but a later design review moved it to eight — Sentinel flags the
-conflict and resolves it automatically. The FSM is missing its error state. A
-debug register appears in the RTL that no spec mentions — but Sentinel finds
-the meeting note that explains it. And it catches a top-level requirement that
-was never even refined into the micro-architecture spec — a traceability gap."
+"Here it is on a real example — a hardware compression accelerator, the Zephyr
+COSS. One command… and in seconds Sentinel produces a clause-by-clause drift
+report across twenty-eight spec claims. Watch what it catches. The accelerator's
+memory bus is thirty-two bits — but the spec *and* an architecture review both
+demand sixty-four. That's a high-confidence drift. The control FSM is missing
+its write-out state. A performance counter the spec requires isn't implemented.
+And the interrupt-status register? The spec says one offset, but a later design
+review moved it — Sentinel flags the conflict, resolves it by authority, and
+confirms the RTL actually followed the review. There's even a debug register in
+the RTL that no spec mentions — and Sentinel finds the meeting note that
+explains it."
 
 ---
 
 ## [1:35–1:48] — Milestone Gates
 *(On screen: the milestone gate table — 0.1 / 0.5 / 0.8 / 1.0, all FAIL)*
 
-"And it checks maturity by milestone. The HAS is golden; the MAS and RTL are
-graded against it stage by stage. At zero-point-one we only check the interface
+"And it grades maturity by milestone. The HAS is golden; the MAS and RTL are
+checked against it stage by stage. At zero-point-one we only check the interface
 — ports and registers. At zero-point-five, functional behavior. At
-zero-point-eight, errors, DFT, and performance. Here, the design fails its very
-first gate — it isn't even zero-point-one ready."
+zero-point-eight, errors, DFT, and performance. Here the design fails its very
+first gate on the bus-width drift — it isn't even zero-point-one ready — and a
+top-level clock-crossing requirement was never even written into the MAS."
 
 ---
 

@@ -140,31 +140,32 @@ s = p.addSlide(); s.background = { color: ICE };
 kicker(s, "Live Demo");
 title(s, "What it catches — in seconds");
 const finds = [
-  [RED, "🟥 Drift · high confidence", "RTL bus is 32-bit; MAS and the Aug-12 arch review both require 64-bit"],
-  [RED, "❌ Missing + conflict", "STATUS register absent; MAS says 0x04 but Aug-25 design review moved it to 0x08"],
-  [RED, "❌ Missing", "FSM lacks the ERROR state required by HAS-04 / MAS §4.1"],
-  [TEALD, "🟡 Undocumented · explained", "DEBUG register in RTL — a July-30 meeting flagged it as a temporary hook"],
-  [PURPLE, "▲ Traceability gap", "HAS-05 (single-cycle read latency) was never refined into a MAS claim"],
+  [RED, "🟥 Drift · high confidence", "m_axi_wdata is 32-bit; MAS and the Aug-28 arch review both require 64-bit"],
+  [RED, "❌ Missing · 0.5", "Control FSM lacks the WRITE_OUT state required by MAS §4.1"],
+  [RED, "❌ Missing · 0.8", "PERF_MISS performance counter (MAS §3.3) not implemented"],
+  [ORANGE, "⚠ Spec conflict · auto-resolved", "INT_STATUS: MAS 0x054 vs Sep-02 review 0x058 — RTL follows the review"],
+  [TEALD, "🟡 Undocumented · explained", "DBG_SCRATCH in RTL — an Aug-20 meeting flagged it as a temporary hook"],
+  [PURPLE, "▲ Traceability gap", "HAS-09 (multi-clock CDC) was never refined into a MAS claim"],
 ];
-let fy = 1.95;
+let fy = 1.9;
 finds.forEach(([c, h, d]) => {
-  card(s, 0.7, fy, 8.7, 0.92, { shadow: true });
-  s.addShape(p.shapes.RECTANGLE, { x: 0.7, y: fy, w: 0.12, h: 0.92, fill: { color: c } });
-  s.addText(h, { x: 1.0, y: fy + 0.12, w: 8.2, h: 0.4, fontFace: HF, fontSize: 14.5, bold: true, color: c, align: "left", margin: 0 });
-  s.addText(d, { x: 1.0, y: fy + 0.5, w: 8.3, h: 0.38, fontFace: BF, fontSize: 12.5, color: INK, align: "left", margin: 0 });
-  fy += 1.03;
+  card(s, 0.7, fy, 8.7, 0.8, { shadow: true });
+  s.addShape(p.shapes.RECTANGLE, { x: 0.7, y: fy, w: 0.12, h: 0.8, fill: { color: c } });
+  s.addText(h, { x: 1.0, y: fy + 0.1, w: 8.2, h: 0.36, fontFace: HF, fontSize: 13.5, bold: true, color: c, align: "left", margin: 0 });
+  s.addText(d, { x: 1.0, y: fy + 0.44, w: 8.3, h: 0.34, fontFace: BF, fontSize: 11.5, color: INK, align: "left", margin: 0 });
+  fy += 0.9;
 });
 // verdict panel
-card(s, 9.7, 1.95, 3.0, 5.15, { fill: NAVY });
-s.addText("VERDICT", { x: 9.7, y: 2.3, w: 3.0, h: 0.4, fontFace: HF, fontSize: 14, bold: true, color: "7FD4E0", align: "center", charSpacing: 2, margin: 0 });
-s.addText("🚨", { x: 9.7, y: 2.75, w: 3.0, h: 0.9, fontSize: 44, align: "center", margin: 0 });
-s.addText("DRIFT\nDETECTED", { x: 9.7, y: 3.65, w: 3.0, h: 1.0, fontFace: HF, fontSize: 24, bold: true, color: "FFFFFF", align: "center", margin: 0 });
+card(s, 9.7, 1.9, 3.0, 5.3, { fill: NAVY });
+s.addText("ZEPHYR COSS", { x: 9.7, y: 2.2, w: 3.0, h: 0.4, fontFace: HF, fontSize: 13, bold: true, color: "7FD4E0", align: "center", charSpacing: 1, margin: 0 });
+s.addText("🚨", { x: 9.7, y: 2.65, w: 3.0, h: 0.85, fontSize: 40, align: "center", margin: 0 });
+s.addText("DRIFT\nDETECTED", { x: 9.7, y: 3.5, w: 3.0, h: 0.95, fontFace: HF, fontSize: 22, bold: true, color: "FFFFFF", align: "center", margin: 0 });
 s.addText([
-  { text: "3 verified · 1 drift", options: { breakLine: true } },
+  { text: "25 verified · 1 drift", options: { breakLine: true } },
   { text: "2 missing · 1 conflict", options: { breakLine: true } },
   { text: "1 gap · 1 undocumented", options: {} },
-], { x: 9.7, y: 4.8, w: 3.0, h: 1.2, fontFace: BF, fontSize: 13.5, color: "CADCFC", align: "center", margin: 0 });
-s.addText("one command · zero API keys", { x: 9.7, y: 6.5, w: 3.0, h: 0.4, fontFace: BF, fontSize: 11.5, italic: true, color: "7FD4E0", align: "center", margin: 0 });
+], { x: 9.7, y: 4.6, w: 3.0, h: 1.2, fontFace: BF, fontSize: 13, color: "CADCFC", align: "center", margin: 0 });
+s.addText("28 claims · one command · zero API keys", { x: 9.7, y: 6.55, w: 3.0, h: 0.5, fontFace: BF, fontSize: 11, italic: true, color: "7FD4E0", align: "center", margin: 0 });
 
 // ---------------------------------------------------------------- SLIDE 7b — Milestone gates
 s = p.addSlide(); s.background = { color: ICE };
@@ -175,10 +176,10 @@ s.addText([
   { text: "MAS and RTL are checked against it milestone by milestone, so each stage only checks what should be done by then.", options: { color: INK } },
 ], { x: 0.7, y: 1.9, w: 11.9, h: 0.7, fontFace: BF, fontSize: 16, margin: 0 });
 const gates = [
-  ["0.1", "Boundary — interface ports + CSR registers", "FAIL", "bus 32-bit drift · STATUS missing"],
-  ["0.5", "+ Functional behavior (FSM, datapath)", "FAIL", "FSM ERROR state missing"],
-  ["0.8", "+ Errors, DFT, perf counters, debug", "FAIL", "scan_en missing · latency gap"],
-  ["1.0", "Overall / integration — everything", "FAIL", "not yet spec-faithful"],
+  ["0.1", "Boundary — interface ports + CSR registers", "FAIL", "m_axi_wdata 32-bit vs 64-bit drift"],
+  ["0.5", "+ Functional behavior (FSM, datapath)", "FAIL", "control FSM missing WRITE_OUT state"],
+  ["0.8", "+ Errors, DFT, perf counters, debug", "FAIL", "PERF_MISS counter not implemented"],
+  ["1.0", "Overall / integration — everything", "FAIL", "HAS-09 multi-clock CDC gap"],
 ];
 let gy = 2.75;
 gates.forEach(([m, scope, verdict, why]) => {

@@ -75,12 +75,14 @@ All grounded in a dependency-free **RAG store** (`src/knowledge/rag_store.py`).
 python examples/run_demo.py
 ```
 
-Runs **fully offline** (no API keys) over the bundled synthetic HAS + MAS +
-decisions + RTL. The sample RTL contains deliberately injected drift, and the
-decisions include one **reinforcing** review (64-bit bus), one **conflicting**
-review (STATUS offset), and one **contextual** note (temporary debug register) —
-so you see the tool catch drift, resolve a spec conflict, flag a traceability
-gap, and explain an undocumented register.
+Runs **fully offline** (no API keys) over a bundled synthetic example — the
+**Zephyr LZ Compression Offload Sub-System (COSS)**: a firmware-driven AXI
+compression accelerator (HAS + MAS + review decisions + RTL). The RTL faithfully
+implements the MAS except for a few deliberately injected drifts, and the
+decisions include one **reinforcing** review (64-bit datapath), one
+**conflicting** review (INT_STATUS offset), and one **contextual** note
+(temporary debug register) — so you see the tool catch drift, resolve a spec
+conflict, flag a traceability gap, and explain an undocumented register.
 
 Two reports are written on every run:
 
@@ -100,11 +102,14 @@ adapts to light/dark theme automatically. A rendered sample lives at
 
 ### What the demo catches
 
-- **Drift (high confidence)** — RTL bus is 32-bit; MAS *and* the Aug-12 arch review require 64-bit.
-- **Missing + conflict (review)** — STATUS register absent; MAS says 0x04 but the Aug-25 design review relocated it to 0x08.
-- **Missing** — FSM lacks the `ERROR` state required by HAS-04 / MAS 4.1.
-- **Undocumented (explained)** — a DEBUG register not in any spec, but a July-30 meeting flagged it as a temporary bring-up hook.
-- **Traceability gap** — HAS-05 (single-cycle read latency) was never refined into a MAS claim.
+On the Zephyr COSS example (28 MAS claims, 9 HAS requirements, 3 decisions):
+
+- **Drift (high confidence, 0.1)** — RTL memory bus `m_axi_wdata` is 32-bit; the MAS *and* the Aug-28 arch review both require 64-bit.
+- **Missing (0.5)** — the control FSM lacks the `WRITE_OUT` state required by MAS §4.1.
+- **Missing (0.8)** — the `PERF_MISS` performance counter (MAS §3.3) is not implemented.
+- **Spec conflict, auto-resolved** — `INT_STATUS`: the MAS says 0x054 but the Sep-02 design review relocated it to 0x058; the RTL follows the review, so Sentinel resolves the conflict (authority + recency) and marks the RTL correct while flagging the stale MAS.
+- **Undocumented, explained** — a `DBG_SCRATCH` register at 0x070 in the RTL that no spec mentions, but an Aug-20 meeting note flags it as a temporary bring-up hook.
+- **Traceability gap (1.0)** — HAS-09 (optional multi-clock CDC) was never refined into a MAS claim.
 
 ## Milestone-based checking
 
@@ -130,8 +135,9 @@ python examples/run_demo.py                    # 1.0 (everything, default)
 
 Gates are cumulative: a milestone passes only when every in-scope claim is
 verified with no traceability gap. In the demo, **all four gates fail** — 0.1
-already fails on the bus-width drift and the missing STATUS register, so the RTL
-isn't even 0.1-ready yet.
+already fails on the 32-bit-vs-64-bit datapath drift, so the RTL isn't even
+0.1-ready yet; 0.5 adds the missing FSM state, 0.8 the missing perf counter, and
+1.0 the CDC traceability gap.
 
 ## RAG / LLM upgrade path
 
@@ -150,10 +156,11 @@ it's reproducible with zero setup. Documented hooks upgrade it to a full system:
 ## Project layout
 
 ```
-data/has/          synthetic HAS (top-level requirements)
-data/specs/        synthetic MAS (testable claims, traced to HAS)
-data/decisions/    synthetic reviews/meetings (authority + date)
-data/rtl/          synthetic SystemVerilog with injected drift
+data/has/          Zephyr COSS HAS (top-level requirements)
+data/specs/        Zephyr COSS MAS (testable claims, traced to HAS)
+data/decisions/    review/meeting decisions (authority + date)
+data/rtl/          Zephyr COSS SystemVerilog (with injected drift)
+docs/reference/    original source docs (.docx) + design draw.io diagrams
 src/knowledge/     multi-source RAG store
 src/agents/        the agents (parse, ingest, resolve, trace, scan, map, sim)
 src/milestones.py    milestone scope + cumulative gate logic

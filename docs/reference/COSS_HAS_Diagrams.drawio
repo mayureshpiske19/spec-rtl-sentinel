@@ -1,0 +1,84 @@
+<mxfile host="Electron" agent="Scout">
+  <diagram id="p1" name="Figure 1 - Top-Level Architecture">
+    <mxGraphModel dx="1556" dy="1183" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFFFFF;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Zephyr LZ Compression Offload Sub-System (COSS) – Top Level" vertex="1">
+          <mxGeometry height="32" width="470" x="330" y="8" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9DDF2;strokeColor=#7030A0;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Host CPU / Firmware" vertex="1">
+          <mxGeometry height="55" width="180" x="847" y="117" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Input DMA (M0) read raw data" vertex="1">
+          <mxGeometry height="60" width="180" x="60" y="119" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Output DMA (M1) write compressed" vertex="1">
+          <mxGeometry height="60" width="180" x="270" y="119" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EFEF;strokeColor=#1F7A7A;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="LZ Compression Accelerator (M2)" vertex="1">
+          <mxGeometry height="60" width="200" x="480" y="119" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="AXI Interconnect  +  QoS Arbiter (round-robin / priority)" vertex="1">
+          <mxGeometry height="55" width="620" x="60" y="249" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="CSR / Register Space (jobs, cfg, status, error, perf, debug)" vertex="1">
+          <mxGeometry height="80" width="240" x="820" y="229" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Control Module (job sequencer FSM)" vertex="1">
+          <mxGeometry height="70" width="240" x="820" y="359" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="L2 Cache (history window + job descriptors)" vertex="1">
+          <mxGeometry height="60" width="340" x="200" y="349" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Memory Controller (AXI → DRAM cmd / bank FSM)" vertex="1">
+          <mxGeometry height="60" width="340" x="200" y="449" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#808080;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="DRAM (raw input | compressed output | job ring)" vertex="1">
+          <mxGeometry height="55" width="340" x="200" y="549" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;curved=0;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="214" />
+              <mxPoint x="370" y="214" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n14" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="199" />
+              <mxPoint x="370" y="199" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n15" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;curved=0;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n8" value="AXI4-Lite (jobs / cfg)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;" target="n9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;fontSize=13;fontColor=#333333;exitX=0;exitY=0.5;exitDx=0;exitDy=0;curved=0;" value="&lt;font&gt;enables / policy&lt;/font&gt;">
+          <mxGeometry relative="1" x="-0.3569" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1049" y="394.0000000000001" as="sourcePoint" />
+            <mxPoint x="599.0344827586207" y="304.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n19" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n10" value="miss / refill">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" edge="1" parent="1" source="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

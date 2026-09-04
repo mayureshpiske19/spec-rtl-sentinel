@@ -4,9 +4,9 @@ Demo entry point — Design Intent Ledger.
 Usage:
     python examples/run_demo.py
     python examples/run_demo.py --milestone 0.1
-    python examples/run_demo.py --has data/has/sample_has.md \
-        --spec data/specs/sample_mas.md \
-        --rtl data/rtl/sample_ciu_axi_sub.sv \
+    python examples/run_demo.py --has data/has/zephyr_coss_has.md \
+        --spec data/specs/zephyr_coss_mas.md \
+        --rtl data/rtl/zephyr_coss.sv \
         --decisions data/decisions --milestone 0.5
 """
 
@@ -21,9 +21,9 @@ from src.orchestrator import run_pipeline  # noqa: E402
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Spec-RTL Sentinel — Design Intent Ledger")
-    ap.add_argument("--has", default="data/has/sample_has.md")
-    ap.add_argument("--spec", default="data/specs/sample_mas.md")
-    ap.add_argument("--rtl", default="data/rtl/sample_ciu_axi_sub.sv")
+    ap.add_argument("--has", default="data/has/zephyr_coss_has.md")
+    ap.add_argument("--spec", default="data/specs/zephyr_coss_mas.md")
+    ap.add_argument("--rtl", default="data/rtl/zephyr_coss.sv")
     ap.add_argument("--decisions", default="data/decisions")
     ap.add_argument("--milestone", default="1.0",
                     choices=["0.1", "0.5", "0.8", "1.0"],

@@ -1,0 +1,225 @@
+<mxfile host="Electron" agent="Scout" pages="3">
+  <diagram id="p1" name="Figure 1 - Top-Level Datapath">
+    <mxGraphModel dx="1556" dy="1183" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFFFFF;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Zephyr LZ Compression Offload Sub-System (COSS) – Top Level" vertex="1">
+          <mxGeometry height="32" width="470" x="580" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9DDF2;strokeColor=#7030A0;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Host CPU / Firmware" vertex="1">
+          <mxGeometry height="55" width="180" x="1287" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Input DMA (M0) read raw data" vertex="1">
+          <mxGeometry height="60" width="180" x="500" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Output DMA (M1) write compressed" vertex="1">
+          <mxGeometry height="60" width="180" x="710" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EFEF;strokeColor=#1F7A7A;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="LZ Compression Accelerator (M2)" vertex="1">
+          <mxGeometry height="60" width="200" x="920" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="AXI Interconnect  +  QoS Arbiter (round-robin / priority)" vertex="1">
+          <mxGeometry height="55" width="620" x="500" y="362" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="CSR / Register Space (jobs, cfg, status, error, perf, debug)" vertex="1">
+          <mxGeometry height="80" width="240" x="1260" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Control Module (job sequencer FSM)" vertex="1">
+          <mxGeometry height="70" width="240" x="1260" y="472" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="L2 Cache (history window + job descriptors)" vertex="1">
+          <mxGeometry height="60" width="340" x="640" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Memory Controller (AXI → DRAM cmd / bank FSM)" vertex="1">
+          <mxGeometry height="60" width="340" x="640" y="562" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#808080;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="DRAM (raw input | compressed output | job ring)" vertex="1">
+          <mxGeometry height="55" width="340" x="640" y="662" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-11" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;curved=0;" target="YanGR4vR4jOL7R88Vile-5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="590" y="327" />
+              <mxPoint x="810" y="327" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-12" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="810" y="312" />
+              <mxPoint x="810" y="312" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-13" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;curved=0;" target="YanGR4vR4jOL7R88Vile-5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-14" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-6" value="AXI4-Lite (jobs / cfg)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-15" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-16" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;fontSize=13;fontColor=#333333;exitX=0;exitY=0.5;exitDx=0;exitDy=0;curved=0;" value="&lt;font&gt;enables / policy&lt;/font&gt;">
+          <mxGeometry relative="1" x="-0.3569" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1489" y="507" as="sourcePoint" />
+            <mxPoint x="1039.0344827586207" y="417" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-17" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-8" value="miss / refill">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-18" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YanGR4vR4jOL7R88Vile-19" edge="1" parent="1" source="YanGR4vR4jOL7R88Vile-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="YanGR4vR4jOL7R88Vile-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p2" name="Figure 2 - LZ Accelerator Micro-Arch">
+    <mxGraphModel dx="1281" dy="974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFFFFF;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="LZ Compression Accelerator (M2) – Internal Micro-Architecture" vertex="1">
+          <mxGeometry height="30" width="520" x="300" y="8" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Input FIFO (raw bytes)" vertex="1">
+          <mxGeometry height="70" width="150" x="30" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EFEF;strokeColor=#1F7A7A;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Match Finder (hash + chained search)" vertex="1">
+          <mxGeometry height="70" width="190" x="210" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EFEF;strokeColor=#1F7A7A;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Token Encoder (literal / len-dist)" vertex="1">
+          <mxGeometry height="70" width="180" x="430" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EFEF;strokeColor=#1F7A7A;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Entropy Coder (Huffman, optional)" vertex="1">
+          <mxGeometry height="70" width="180" x="640" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Output FIFO" vertex="1">
+          <mxGeometry height="70" width="130" x="850" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="History Window / Dictionary SRAM" vertex="1">
+          <mxGeometry height="70" width="190" x="210" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DEEBF7;strokeColor=#2E75B6;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="Hash Table (chain heads)" vertex="1">
+          <mxGeometry height="60" width="190" x="210" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="CRC / Length Accumulator" vertex="1">
+          <mxGeometry height="70" width="180" x="430" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;arcSize=8;verticalAlign=middle;align=center;" value="Local Control &amp;amp; Status  LOAD → MATCH → EMIT → FLUSH reports compressed_size, CRC, status" vertex="1">
+          <mxGeometry height="110" width="340" x="640" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#548235;strokeWidth=1.5;fontSize=13;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="AXI Master Port (to interconnect): input reads via DMA | history spill / fill" vertex="1">
+          <mxGeometry height="60" width="580" x="30" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;" target="n12" value="search / update">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" edge="1" parent="1" source="n12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;" target="n13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=13;fontColor=#333333;" target="n14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;entryX=0.264;entryY=-0.015;entryDx=0;entryDy=0;entryPerimeter=0;" target="n15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;exitX=0.525;exitY=1.036;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-106" y="160" as="sourcePoint" />
+            <mxPoint x="109" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n22" edge="1" parent="1" source="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=13;fontColor=#333333;entryX=0.475;entryY=-0.033;entryDx=0;entryDy=0;entryPerimeter=0;" target="n16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p3" name="Figure 3 - Job Sequencer FSM">
+    <mxGraphModel dx="1556" dy="1183" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFFFFF;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="COSS Control Module – Job Sequencer FSM" vertex="1">
+          <mxGeometry height="30" width="400" x="320" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="IDLE" vertex="1">
+          <mxGeometry height="70" width="160" x="30" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="FETCH_JOB" vertex="1">
+          <mxGeometry height="70" width="160" x="220" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="LOAD_DATA" vertex="1">
+          <mxGeometry height="70" width="160" x="410" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="COMPRESS" vertex="1">
+          <mxGeometry height="70" width="160" x="600" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="WRITE_OUT" vertex="1">
+          <mxGeometry height="70" width="160" x="790" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C55A11;strokeWidth=1.5;fontSize=14;fontColor=#1A1A1A;fontStyle=1;arcSize=8;verticalAlign=middle;align=center;" value="DONE update + IRQ" vertex="1">
+          <mxGeometry height="70" width="160" x="980" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontColor=#333333;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontColor=#333333;" target="n5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontColor=#333333;" target="n6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontColor=#333333;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;fontSize=14;fontColor=#333333;" target="n8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" edge="1" parent="1" style="endArrow=block;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;fontSize=14;" value="START / doorbell">
+          <mxGeometry relative="1" x="-0.8" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="110" y="40" as="sourcePoint" />
+            <mxPoint x="110" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n15" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#C00000;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;fontSize=14;fontColor=#333333;exitX=0.25;exitY=0;entryX=0.75;entryY=0;" target="n3" value="error → ERR / IRQ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="80" />
+              <mxPoint x="150" y="80" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n16" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4D4D4D;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;fontSize=14;fontColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" target="n3" value="loop: next job (ring not empty)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1060" y="270" />
+              <mxPoint x="110" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

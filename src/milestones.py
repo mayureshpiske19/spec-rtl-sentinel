@@ -88,8 +88,11 @@ def compute_gates(findings, trace_rows):
     for m in MILESTONES:
         scope = scope_for(m)
         in_scope_f = [f for f in findings if getattr(f, "category", "functional") in scope]
-        fails = [f for f in in_scope_f
-                 if f.status in _FAILING or getattr(f, "conflict", False)]
+        # A gate fails on genuine RTL drift/missing or a traceability gap.
+        # Spec conflicts (RTL correct vs a stale spec) and undocumented items are
+        # surfaced as advisories, not gate blockers.
+        fails = [f for f in in_scope_f if f.status in _FAILING]
+        conflicts = [f for f in in_scope_f if getattr(f, "conflict", False)]
         warns = [f for f in in_scope_f
                  if f.status in ("undocumented", "ambiguous")
                  and f.status not in _FAILING]
@@ -101,6 +104,7 @@ def compute_gates(findings, trace_rows):
             "label": MILESTONE_LABEL[m],
             "checked": len(in_scope_f),
             "fails": fails,
+            "conflicts": conflicts,
             "warns": warns,
             "gaps": gaps,
             "passed": passed,
