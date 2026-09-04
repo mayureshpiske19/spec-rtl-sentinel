@@ -1,1 +1,1 @@
-"""MAS-RTL Sentinel — agent package."""
+"""Spec-RTL Sentinel — agent package."""

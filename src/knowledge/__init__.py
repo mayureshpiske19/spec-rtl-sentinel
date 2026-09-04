@@ -1,1 +1,1 @@
-"""MAS-RTL Sentinel — knowledge / RAG layer."""
+"""Spec-RTL Sentinel — knowledge / RAG layer."""

@@ -47,7 +47,7 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
     gaps = sum(1 for r in trace_rows if r.status == GAP)
 
     L: List[str] = []
-    L.append("# MAS–RTL Sentinel — Design Intent Ledger Report")
+    L.append("# Spec-RTL Sentinel — Design Intent Ledger Report")
     L.append("")
     L.append(f"- **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     L.append(f"- **HAS:** `{os.path.basename(has_path)}` · "

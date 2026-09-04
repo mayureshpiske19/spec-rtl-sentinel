@@ -1,4 +1,4 @@
-# MAS–RTL Sentinel — Design Intent Ledger
+# Spec-RTL Sentinel — Design Intent Ledger
 
 **Agentic RAG that checks RTL against the *entire chain of design intent* — HAS → MAS → decisions → RTL — and reports where the as-built silicon drifts from the as-agreed intent.**
 
@@ -32,7 +32,7 @@ grounds RTL against all of them at once:
    RTL   (the "as-built")
 ```
 
-![MAS-RTL Sentinel architecture](docs/architecture.png)
+![Spec-RTL Sentinel architecture](docs/architecture.png)
 
 It produces a **layered drift report**:
 

@@ -1,1 +1,1 @@
-"""MAS-RTL Sentinel — source package."""
+"""Spec-RTL Sentinel — source package."""

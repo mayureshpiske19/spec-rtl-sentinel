@@ -1,6 +1,6 @@
 # Micro-Architecture Specification (MAS) — Sample CIU AXI Subordinate CSR Block
 
-> This is a **synthetic** spec written for the MAS–RTL Sentinel demo.
+> This is a **synthetic** spec written for the Spec-RTL Sentinel demo.
 > It contains no Microsoft-confidential content.
 
 ## 1. Overview

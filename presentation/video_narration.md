@@ -1,4 +1,4 @@
-# MAS–RTL Sentinel — Demo Video Narration
+# Spec-RTL Sentinel — Demo Video Narration
 ### Script for an AI presenter/avatar · Target length ≈ 2:00 (hard cap 2:00)
 
 > Paste each block into your AI-voice tool. Timings are guides. Words in
@@ -8,7 +8,7 @@
 ---
 
 ## [0:00–0:15] — The Hook
-*(On screen: title slide — "MAS–RTL Sentinel: Design Intent Ledger")*
+*(On screen: title slide — "Spec-RTL Sentinel: Design Intent Ledger")*
 
 "Every chip begins as intent — a high-level spec, refined into a
 micro-architecture spec, then implemented as RTL. But intent drifts. A bus
@@ -24,7 +24,7 @@ intent, that's how bugs — and security holes — reach silicon."
 "Today, catching that drift means an engineer manually cross-checking the RTL
 against the HAS, the MAS, and a scattered trail of review notes — clause by
 clause. It's slow, it's inconsistent, and it's the first thing dropped under
-schedule pressure. Meet MAS–RTL Sentinel — a multi-agent system that does it
+schedule pressure. Meet Spec-RTL Sentinel — a multi-agent system that does it
 automatically."
 
 ---
@@ -69,7 +69,7 @@ trust."
 ## [1:55–2:00] — Close
 *(On screen: logo + GitHub URL)*
 
-"MAS–RTL Sentinel. Catching spec-to-silicon drift before it becomes a bug."
+"Spec-RTL Sentinel. Catching spec-to-silicon drift before it becomes a bug."
 
 ---
 

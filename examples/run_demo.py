@@ -19,7 +19,7 @@ from src.orchestrator import run_pipeline  # noqa: E402
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="MAS-RTL Sentinel — Design Intent Ledger")
+    ap = argparse.ArgumentParser(description="Spec-RTL Sentinel — Design Intent Ledger")
     ap.add_argument("--has", default="data/has/sample_has.md")
     ap.add_argument("--spec", default="data/specs/sample_mas.md")
     ap.add_argument("--rtl", default="data/rtl/sample_ciu_axi_sub.sv")
@@ -30,7 +30,7 @@ def main() -> int:
     r = run_pipeline(args.has, args.spec, args.rtl, args.decisions, use_llm=args.llm)
 
     print("=" * 72)
-    print("MAS-RTL Sentinel — Design Intent Ledger")
+    print("Spec-RTL Sentinel — Design Intent Ledger")
     print("=" * 72)
     print(f"Knowledge ingested : {r.rag_stats}  (HAS/MAS/DECISION chunks)")
     print(f"HAS requirements   : {len(r.has_reqs)}")

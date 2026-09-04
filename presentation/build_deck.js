@@ -1,9 +1,9 @@
-// Builds the MAS-RTL Sentinel hackathon pitch deck.
+﻿// Builds the Spec-RTL Sentinel hackathon pitch deck.
 const pptxgen = require("pptxgenjs");
 const p = new pptxgen();
 p.layout = "LAYOUT_WIDE"; // 13.3 x 7.5
 p.author = "Mayuresh Piske";
-p.title = "MAS-RTL Sentinel — Design Intent Ledger";
+p.title = "Spec-RTL Sentinel — Design Intent Ledger";
 
 const W = 13.3, Hh = 7.5;
 
@@ -29,7 +29,7 @@ function card(s, x, y, w, h, opts = {}) {
 let s = p.addSlide();
 s.background = { color: NAVY };
 s.addShape(p.shapes.RECTANGLE, { x: 0, y: 0, w: 0.28, h: Hh, fill: { color: TEAL } });
-s.addText("MAS–RTL SENTINEL", { x: 0.9, y: 2.05, w: 11.6, h: 1.1, fontFace: HF, fontSize: 52, bold: true, color: "FFFFFF", align: "left", margin: 0 });
+s.addText("SPEC-RTL SENTINEL", { x: 0.9, y: 2.05, w: 11.6, h: 1.1, fontFace: HF, fontSize: 52, bold: true, color: "FFFFFF", align: "left", margin: 0 });
 s.addText("Design Intent Ledger", { x: 0.95, y: 3.15, w: 11, h: 0.7, fontFace: HF, fontSize: 27, italic: true, color: "7FD4E0", align: "left", margin: 0 });
 s.addText("Agentic RAG that catches spec-to-silicon drift before it becomes a bug.", { x: 0.95, y: 3.95, w: 11, h: 0.5, fontFace: BF, fontSize: 16, color: "CADCFC", align: "left", margin: 0 });
 // layer motif
@@ -223,6 +223,6 @@ s.addText([
   { text: "python examples/run_demo.py", options: { color: "FFFFFF", fontFace: "Consolas" } },
 ], { x: 1.25, y: 5.55, w: 11, h: 0.5, fontFace: BF, fontSize: 17, margin: 0 });
 s.addText("github.com/mayureshpiske19/mas-rtl-sentinel", { x: 1.25, y: 6.05, w: 11, h: 0.5, fontFace: BF, fontSize: 15, color: "CADCFC", margin: 0 });
-s.addText("MAS–RTL Sentinel — catching spec-to-silicon drift before it becomes a bug.", { x: 0.9, y: 6.95, w: 11.6, h: 0.4, fontFace: HF, fontSize: 13, italic: true, color: "9DB4CC", margin: 0 });
+s.addText("Spec-RTL Sentinel — catching spec-to-silicon drift before it becomes a bug.", { x: 0.9, y: 6.95, w: 11.6, h: 0.4, fontFace: HF, fontSize: 13, italic: true, color: "9DB4CC", margin: 0 });
 
-p.writeFile({ fileName: "presentation/MAS-RTL-Sentinel-Pitch.pptx" }).then(f => console.log("wrote", f));
+p.writeFile({ fileName: "presentation/Spec-RTL-Sentinel-Pitch.pptx" }).then(f => console.log("wrote", f));

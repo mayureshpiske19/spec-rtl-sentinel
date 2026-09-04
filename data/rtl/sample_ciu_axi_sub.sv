@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// sample_ciu_axi_sub.sv  (SYNTHETIC RTL for MAS-RTL Sentinel demo)
+// sample_ciu_axi_sub.sv  (SYNTHETIC RTL for Spec-RTL Sentinel demo)
 //
 // This module intentionally contains several DRIFTS from sample_mas.md so the
 // tool has something to catch:

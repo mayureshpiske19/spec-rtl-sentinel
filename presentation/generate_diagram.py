@@ -1,5 +1,5 @@
 """
-Generates the MAS-RTL Sentinel architecture diagram as a high-res PNG.
+Generates the Spec-RTL Sentinel architecture diagram as a high-res PNG.
 Professional Microsoft-Fluent styling. No hand-drawn look.
 """
 import matplotlib
@@ -58,7 +58,7 @@ def left(b):    x, y, w, h = b; return (x, y + h / 2)
 def right(b):   x, y, w, h = b; return (x + w, y + h / 2)
 
 # ---- Title ----
-ax.text(0.6, 8.62, "MAS–RTL Sentinel", fontsize=27, fontweight="bold",
+ax.text(0.6, 8.62, "Spec-RTL Sentinel", fontsize=27, fontweight="bold",
         color="#12324F", ha="left", va="center")
 ax.text(0.62, 8.16, "Design Intent Ledger — agentic RAG for spec-faithful RTL verification",
         fontsize=13.5, color="#5A6473", ha="left", va="center")
