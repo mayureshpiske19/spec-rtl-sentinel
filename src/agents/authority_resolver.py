@@ -43,6 +43,7 @@ class Conflict:
     date: str
     resolved_value: str
     resolved_source: str
+    category: str = "functional"   # milestone category of the amended claim
 
 
 @dataclass
@@ -70,24 +71,39 @@ def resolve(claims: List[Claim], decisions: List[Decision]) -> ResolverResult:
     for c in claims:
         key = (c.target.upper(), c.property)
         rc = ResolvedClaim(claim=c, effective_expected=c.expected)
-        for d in by_key.get(key, []):
-            if _norm(d.value) == _norm(c.expected):
-                rc.backing.append(d.id)
-                reinforcements.append(
-                    f"{c.id}: {c.target}.{c.property}={c.expected} reinforced "
-                    f"by {d.id} ({d.authority}, {d.date})"
-                )
-            else:
-                # Decision overrides MAS if it outranks 'spec' (it always does).
-                rc.effective_expected = d.value
-                rc.amended_by = d.id
-                conflicts.append(Conflict(
-                    target=c.target, property=c.property,
-                    mas_value=c.expected, decision_value=d.value,
-                    decision_id=d.id, authority=d.authority, date=d.date,
-                    resolved_value=d.value,
-                    resolved_source=f"{d.id} ({d.authority}, {d.date})",
-                ))
+        candidates = by_key.get(key, [])
+        if not candidates:
+            resolved.append(rc)
+            continue
+
+        # The authoritative decision wins by (authority rank, then recency).
+        winner = max(candidates, key=lambda d: (d.rank, d.date))
+
+        if _norm(winner.value) == _norm(c.expected):
+            # Winner agrees with the MAS -> reinforcement (higher confidence).
+            for d in candidates:
+                if _norm(d.value) == _norm(c.expected):
+                    rc.backing.append(d.id)
+                    reinforcements.append(
+                        f"{c.id}: {c.target}.{c.property}={c.expected} reinforced "
+                        f"by {d.id} ({d.authority}, {d.date})"
+                    )
+        else:
+            # Winner overrides the stale MAS value.
+            rc.effective_expected = winner.value
+            rc.amended_by = winner.id
+            conflicts.append(Conflict(
+                target=c.target, property=c.property,
+                mas_value=c.expected, decision_value=winner.value,
+                decision_id=winner.id, authority=winner.authority,
+                date=winner.date, resolved_value=winner.value,
+                resolved_source=f"{winner.id} ({winner.authority}, {winner.date})",
+                category=getattr(c, "category", "functional") or "functional",
+            ))
+            # Any decision agreeing with the winning value backs it up.
+            for d in candidates:
+                if d.id != winner.id and _norm(d.value) == _norm(winner.value):
+                    rc.backing.append(d.id)
         resolved.append(rc)
 
     return ResolverResult(resolved, conflicts, reinforcements, context)

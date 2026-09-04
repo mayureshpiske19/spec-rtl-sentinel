@@ -8,6 +8,7 @@ env/
 
 # Reports / build artifacts
 reports/*.md
+reports/*.html
 !reports/.gitkeep
 
 # Editor / OS

@@ -76,6 +76,7 @@ def main() -> int:
               f"({f.confidence:6}) {f.traces_to or '   '}  {f.detail}{back}")
     print()
     print(f"Full report: {r.report_path}")
+    print(f"HTML report: {r.html_path}")
     print("=" * 72)
     return 0
 

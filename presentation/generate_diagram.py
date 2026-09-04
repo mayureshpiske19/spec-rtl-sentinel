@@ -1,6 +1,6 @@
 """
 Generates the Spec-RTL Sentinel architecture diagram as a high-res PNG.
-Professional Microsoft-Fluent styling. No hand-drawn look.
+Professional flat styling. No hand-drawn look.
 """
 import matplotlib
 matplotlib.use("Agg")

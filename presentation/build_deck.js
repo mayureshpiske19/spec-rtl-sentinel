@@ -1,4 +1,4 @@
-﻿// Builds the Spec-RTL Sentinel hackathon pitch deck.
+﻿// Builds the Spec-RTL Sentinel pitch deck.
 const pptxgen = require("pptxgenjs");
 const p = new pptxgen();
 p.layout = "LAYOUT_WIDE"; // 13.3 x 7.5
@@ -43,7 +43,7 @@ layers.forEach(([t], i) => {
 });
 s.addText([
   { text: "Mayuresh Piske", options: { bold: true, color: "FFFFFF" } },
-  { text: "   ·   Microsoft Global Hackathon 2026   ·   Customer-Focused AI Wins with FDE", options: { color: "9DB4CC" } },
+  { text: "   ·   Spec-faithful RTL verification, grounded in design intent", options: { color: "9DB4CC" } },
 ], { x: 0.95, y: 6.45, w: 11.6, h: 0.5, fontFace: BF, fontSize: 14, align: "left", margin: 0 });
 
 // ---------------------------------------------------------------- SLIDE 2 — Problem

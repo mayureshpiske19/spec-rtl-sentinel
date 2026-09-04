@@ -46,7 +46,16 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
         counts[f.status] = counts.get(f.status, 0) + 1
     total = len(findings)
     drift_like = counts[DRIFT] + counts[MISSING] + counts[UNDOCUMENTED]
-    gaps = sum(1 for r in trace_rows if r.status == GAP)
+    # Scope gaps and conflicts to the selected milestone so the Summary agrees
+    # with the per-milestone gate table.
+    scope = _ms.scope_for(milestone)
+    gaps = sum(1 for r in trace_rows
+               if r.status == GAP
+               and getattr(r, "category", "functional") in scope)
+    conflicts_in_scope = [
+        c for c in resolver.conflicts
+        if getattr(c, "category", "functional") in scope
+    ]
 
     L: List[str] = []
     L.append("# Spec-RTL Sentinel — Design Intent Ledger Report")
@@ -87,10 +96,10 @@ def build_report(findings: List[Finding], sim_results: List[SimResult],
              f"{_ICON[MISSING]} Missing: **{counts[MISSING]}** · "
              f"{_ICON[UNDOCUMENTED]} Undocumented: **{counts[UNDOCUMENTED]}** · "
              f"{_ICON[AMBIGUOUS]} Review: **{counts[AMBIGUOUS]}**")
-    L.append(f"- Spec conflicts (source vs source): **{len(resolver.conflicts)}**")
+    L.append(f"- Spec conflicts (source vs source): **{len(conflicts_in_scope)}**")
     L.append(f"- Traceability gaps (HAS not refined in MAS): **{gaps}**")
     L.append("")
-    ok = drift_like == 0 and not resolver.conflicts and gaps == 0
+    ok = drift_like == 0 and not conflicts_in_scope and gaps == 0
     L.append(f"**Verdict: {'✅ SPEC-FAITHFUL' if ok else '🚨 DRIFT / GAPS DETECTED'}**")
     L.append("")
 

@@ -40,6 +40,14 @@ MEDIUM = "medium"
 REVIEW = "review"
 
 
+def _norm_hex(v: str) -> str:
+    """Normalize a hex offset for comparison (e.g. 0x8 == 0x08)."""
+    v = str(v).strip().lower()
+    if v.startswith("0x"):
+        return "0x" + v[2:].lstrip("0").zfill(2)
+    return v
+
+
 @dataclass
 class Finding:
     claim_id: str
@@ -135,7 +143,7 @@ def _check_register(rc: ResolvedClaim, facts: RTLFacts) -> Finding:
                        f"implemented in RTL.",
                        c.source, "no matching ADDR_ localparam",
                        traces_to=c.traces)
-    if actual.lower() == exp.lower():
+    if _norm_hex(actual) == _norm_hex(exp):
         return Finding(c.id, VERIFIED,
                        f"Register '{c.target}' at {actual} matches spec.",
                        c.source, f"ADDR_{key} = {actual}", traces_to=c.traces)
@@ -176,14 +184,18 @@ def _find_undocumented(facts: RTLFacts, covered: set,
     for name, off in facts.address_map.items():
         if name in covered:
             continue
+        # An undocumented CSR register defaults to the CSR category so it is
+        # caught at the 0.1 boundary gate. It is only treated as a 0.8 'debug'
+        # artifact when a decision note explicitly tags it as such.
         f = Finding("RTL-EXTRA", UNDOCUMENTED,
                     f"RTL register ADDR_{name} at {off} has no matching spec "
                     f"claim.",
                     "n/a", f"ADDR_{name} = {off}", confidence=REVIEW,
-                    category="debug")
+                    category="csr")
         notes = context.get(name)
         if notes:
             d = notes[0]
+            f.category = "debug"
             f.detail += (f" Context: {d.id} ({d.authority}, {d.date}) notes it "
                          f"as a known temporary hook.")
             f.backing.append(d.id)

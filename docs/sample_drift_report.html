@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spec-RTL Sentinel — Drift Report</title>
+<script>
+  (() => {
+    const p = new URLSearchParams(window.location.search).get("scoutTheme");
+    const t = p || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg:#f7f4ef; --cp-bg-elevated:#fcfbf8; --cp-surface:#ffffff;
+  --cp-surface-soft:#f5f5f5; --cp-border:#dedede; --cp-border-strong:#919191;
+  --cp-text:#242424; --cp-text-muted:#5c5c5c; --cp-text-soft:#6f6f6f;
+  --cp-accent:#b11f4b; --cp-success:#16a34a; --cp-danger:#dc2626;
+  --cp-warning:#f59e0b; --cp-link:#0078d4;
+  --cp-shadow:0 0 2px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.14);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg:#3d3b3a; --cp-bg-elevated:#343231; --cp-surface:#292929;
+  --cp-surface-soft:#2e2e2e; --cp-border:#474747; --cp-border-strong:#5f5f5f;
+  --cp-text:#dedede; --cp-text-muted:#919191; --cp-text-soft:#b0b0b0;
+  --cp-accent:#fd8ea1; --cp-success:#4ade80; --cp-danger:#f87171;
+  --cp-warning:#fbbf24; --cp-link:#4da6ff;
+  --cp-shadow:0 0 2px rgba(0,0,0,0.32),0 1px 2px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; background:var(--cp-bg); color:var(--cp-text);
+  font-family:"Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height:1.5; padding:0 0 4rem;
+}
+.mono { font-family:Consolas,"Courier New",Courier,monospace; font-size:.86em; }
+.wrap { max-width:1180px; margin:0 auto; padding:0 1.5rem; }
+header {
+  background:var(--cp-bg-elevated); border-bottom:1px solid var(--cp-border);
+  padding:1.6rem 0 1.4rem;
+}
+.brand { display:flex; align-items:center; gap:.7rem; }
+.dot { width:.85rem; height:.85rem; border-radius:50%; background:var(--cp-accent); }
+h1 { font-size:1.5rem; margin:0; font-weight:700; letter-spacing:-.01em; }
+.sub { color:var(--cp-text-muted); font-size:.9rem; margin-top:.15rem; }
+.meta { display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:1rem; font-size:.82rem;
+  color:var(--cp-text-soft); }
+.meta b { color:var(--cp-text); font-weight:600; }
+.verdict {
+  display:inline-flex; align-items:center; gap:.5rem; margin-top:1rem;
+  padding:.5rem .9rem; border-radius:.625rem; font-weight:700; font-size:1rem;
+  border:1px solid transparent;
+}
+.verdict.ok { background:color-mix(in srgb,var(--cp-success) 14%,transparent); color:var(--cp-success);
+  border-color:color-mix(in srgb,var(--cp-success) 40%,transparent); }
+.verdict.bad { background:color-mix(in srgb,var(--cp-danger) 12%,transparent); color:var(--cp-danger);
+  border-color:color-mix(in srgb,var(--cp-danger) 38%,transparent); }
+h2 { font-size:1.12rem; margin:2.2rem 0 .9rem; font-weight:700; }
+h2 .muted { font-weight:400; font-size:.85rem; }
+.muted { color:var(--cp-text-muted); }
+.gates { display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; margin-top:1.4rem; }
+.gate { background:var(--cp-surface); border:1px solid var(--cp-border);
+  border-left:4px solid var(--cp-border-strong); border-radius:12px; padding:.9rem 1rem;
+  box-shadow:var(--cp-shadow); }
+.gate.ok { border-left-color:var(--cp-success); }
+.gate.bad { border-left-color:var(--cp-danger); }
+.gate-top { display:flex; align-items:center; justify-content:space-between; }
+.ms { font-size:1.35rem; font-weight:800; letter-spacing:-.02em; }
+.gate-label { font-size:.82rem; margin-top:.35rem; min-height:2.4em; }
+.gate-sub { font-size:.74rem; color:var(--cp-text-muted); margin-top:.4rem; }
+.badge { display:inline-block; padding:.12rem .5rem; border-radius:999px; font-size:.72rem;
+  font-weight:700; text-transform:uppercase; letter-spacing:.02em; }
+.badge.sm { text-transform:none; }
+.badge.ok { background:color-mix(in srgb,var(--cp-success) 16%,transparent); color:var(--cp-success); }
+.badge.bad { background:color-mix(in srgb,var(--cp-danger) 15%,transparent); color:var(--cp-danger); }
+.badge.warn { background:color-mix(in srgb,var(--cp-warning) 18%,transparent);
+  color:color-mix(in srgb,var(--cp-warning) 75%,var(--cp-text)); }
+.chips { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.2rem; }
+.chip { background:var(--cp-surface); border:1px solid var(--cp-border); border-radius:.625rem;
+  padding:.5rem .8rem; display:flex; align-items:baseline; gap:.45rem; box-shadow:var(--cp-shadow); }
+.chip .n { font-size:1.15rem; font-weight:800; }
+.chip .t { font-size:.78rem; color:var(--cp-text-muted); }
+.chip.ok .n { color:var(--cp-success); }
+.chip.bad .n { color:var(--cp-danger); }
+.chip.warn .n { color:var(--cp-warning); }
+table { width:100%; border-collapse:collapse; background:var(--cp-surface);
+  border:1px solid var(--cp-border); border-radius:12px; overflow:hidden; box-shadow:var(--cp-shadow);
+  font-size:.85rem; }
+th,td { text-align:left; padding:.6rem .75rem; border-bottom:1px solid var(--cp-border);
+  vertical-align:top; }
+th { background:var(--cp-surface-soft); font-weight:600; font-size:.76rem; text-transform:uppercase;
+  letter-spacing:.03em; color:var(--cp-text-muted); }
+tr:last-child td { border-bottom:none; }
+.ev { color:var(--cp-text-soft); max-width:320px; }
+.pill { display:inline-block; padding:.1rem .5rem; border-radius:999px; font-size:.74rem;
+  font-weight:700; background:var(--cp-accent); color:#fff; }
+html[data-theme="dark"] .pill { color:#1a1a1a; }
+.cat { font-size:.78rem; color:var(--cp-text-muted); }
+.filters { display:flex; gap:.4rem; margin:.4rem 0 1rem; flex-wrap:wrap; }
+.filters button { font:inherit; font-size:.8rem; padding:.35rem .8rem; border-radius:.625rem;
+  border:1px solid var(--cp-border); background:var(--cp-surface); color:var(--cp-text);
+  cursor:pointer; }
+.filters button.active { background:var(--cp-accent); color:#fff; border-color:var(--cp-accent); }
+html[data-theme="dark"] .filters button.active { color:#1a1a1a; }
+footer { text-align:center; color:var(--cp-text-soft); font-size:.78rem; margin-top:2.5rem; }
+.note { font-size:.8rem; color:var(--cp-text-muted); margin-top:.6rem; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><span class="dot"></span>
+    <div><h1>Spec-RTL Sentinel</h1>
+    <div class="sub">Design Intent Ledger — HAS is golden; MAS + RTL checked against it</div></div>
+  </div>
+  <div class="meta">
+    <span>Generated <b>2026-09-04 15:15</b></span>
+    <span>Milestone scope <b>1.0</b></span>
+    <span>HAS <b>sample_has.md</b> · MAS <b>sample_mas.md</b> · RTL <b>sample_ciu_axi_sub.sv</b></span>
+    <span>Knowledge <b>DECISION=3, HAS=8, MAS=9</b> chunks</span>
+  </div>
+  <div class="verdict bad">DRIFT / GAPS DETECTED</div>
+</div></header>
+
+<div class="wrap">
+  <h2>Milestone Gates <span class="muted">— cumulative</span></h2>
+  <div class="gates">
+        <div class="gate bad">
+          <div class="gate-top"><span class="ms">0.1</span>
+            <span class="badge bad">FAIL</span></div>
+          <div class="gate-label">Boundary — ports + CSR registers</div>
+          <div class="gate-sub">2 fail · 0 gap · 5 checked</div>
+        </div>
+        <div class="gate bad">
+          <div class="gate-top"><span class="ms">0.5</span>
+            <span class="badge bad">FAIL</span></div>
+          <div class="gate-label">+ Functional behavior (FSM, datapath)</div>
+          <div class="gate-sub">3 fail · 0 gap · 6 checked</div>
+        </div>
+        <div class="gate bad">
+          <div class="gate-top"><span class="ms">0.8</span>
+            <span class="badge bad">FAIL</span></div>
+          <div class="gate-label">+ Errors, DFT, perf counters, debug</div>
+          <div class="gate-sub">4 fail · 1 gap · 10 checked</div>
+        </div>
+        <div class="gate bad">
+          <div class="gate-top"><span class="ms">1.0</span>
+            <span class="badge bad">FAIL</span></div>
+          <div class="gate-label">Overall / integration — everything</div>
+          <div class="gate-sub">4 fail · 1 gap · 10 checked</div>
+        </div></div>
+  <div class="note">Gates are cumulative: each milestone re-checks everything below it.
+    A gate passes only when every in-scope claim is verified with no traceability gap.</div>
+
+  <h2>Summary</h2>
+  <div class="chips"><div class="chip ok"><span class="n">5</span><span class="t">Verified</span></div><div class="chip bad"><span class="n">1</span><span class="t">Drift</span></div><div class="chip bad"><span class="n">3</span><span class="t">Missing</span></div><div class="chip warn"><span class="n">1</span><span class="t">Undocumented</span></div><div class="chip warn"><span class="n">0</span><span class="t">Review</span></div><div class="chip warn"><span class="n">1</span><span class="t">Spec conflicts</span></div><div class="chip warn"><span class="n">1</span><span class="t">Traceability gaps</span></div></div>
+
+  <h2>Traceability <span class="muted">— HAS → MAS → RTL</span></h2>
+  <table><thead><tr><th>HAS</th><th>Kind</th><th>Requirement</th>
+    <th>MAS claims</th><th>RTL rollup</th></tr></thead>
+    <tbody>
+        <tr><td class="mono">HAS-01</td><td>concept</td>
+        <td>CSR block exposed to SoC fabric via an AXI4 subordinate interface</td><td class="mono">CLAIM-02</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
+        <tr><td class="mono">HAS-02</td><td>performance</td>
+        <td>Fabric data path is 64-bit wide for target throughput</td><td class="mono">CLAIM-01</td>
+        <td><span class="badge bad">DRIFT</span></td></tr>
+        <tr><td class="mono">HAS-03</td><td>security</td>
+        <td>Secret boot key (BEK) provisioned by security engine into a dedicated register</td><td class="mono">CLAIM-05</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
+        <tr><td class="mono">HAS-04</td><td>concept</td>
+        <td>Block control managed by an FSM with explicit error handling</td><td class="mono">CLAIM-03, CLAIM-04, CLAIM-06</td>
+        <td><span class="badge bad">MISSING</span></td></tr>
+        <tr><td class="mono">HAS-05</td><td>performance</td>
+        <td>CSR reads complete with single-cycle latency</td><td class="mono">—</td>
+        <td><span class="badge bad">GAP</span></td></tr>
+        <tr><td class="mono">HAS-06</td><td>reliability</td>
+        <td>Fault conditions reported via an error-status register</td><td class="mono">CLAIM-07</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr>
+        <tr><td class="mono">HAS-07</td><td>testability</td>
+        <td>Scan-based DFT supported via a scan-enable control</td><td class="mono">CLAIM-08</td>
+        <td><span class="badge bad">MISSING</span></td></tr>
+        <tr><td class="mono">HAS-08</td><td>performance</td>
+        <td>Performance counter exposes transaction activity</td><td class="mono">CLAIM-09</td>
+        <td><span class="badge ok">VERIFIED</span></td></tr></tbody></table>
+
+  
+      <h2>Spec Conflicts <span class="muted">— resolved by authority + recency</span></h2>
+      <table><thead><tr><th>Target</th><th>Property</th><th>MAS says</th>
+      <th>Decision says</th><th>Resolved</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">STATUS</td><td>offset</td>
+        <td class="mono">0x04</td>
+        <td class="mono">0x08</td>
+        <td><b>0x08</b><br><span class="muted">DEC-02 (design_review, 2026-08-25)</span></td></tr></tbody></table>
+
+  <h2>Clause-by-Clause Findings</h2>
+  <div class="filters" id="filters">
+    <button data-f="all" class="active">All</button>
+    <button data-f="0.1">0.1</button><button data-f="0.5">0.5</button>
+    <button data-f="0.8">0.8</button><button data-f="1.0">1.0</button>
+  </div>
+  <table id="findings"><thead><tr><th>Claim</th><th>MS</th><th>Category</th>
+    <th>Status</th><th>Conf</th><th>Traces</th><th>Detail</th><th>Evidence</th></tr></thead>
+    <tbody>
+        <tr data-cat="boundary" data-ms="0.1">
+          <td class="mono">CLAIM-01</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">boundary</span></td>
+          <td><span class="badge bad">Drift</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-02</td>
+          <td>&#x27;s_axi_wdata&#x27; is 32 bits but required 64.<span class="muted"> · backing: DEC-01</span></td>
+          <td class="ev mono">[MAS §2.1] The CSR write-data bus `s_axi_wdata` shall be **64 bits** wide to match the SSS fabric data width.</td>
+        </tr>
+        <tr data-cat="boundary" data-ms="0.1">
+          <td class="mono">CLAIM-02</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">boundary</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-01</td>
+          <td>Reset &#x27;aresetn&#x27; is active-low as specified.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §2.2] The block shall use an **active-low** asynchronous reset named `aresetn`.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-03</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-04</td>
+          <td>Register &#x27;CTRL&#x27; at 0x00 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.1] `CTRL` register at byte offset **0x00** (read/write), reset value 0x0.</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-04</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge bad">Missing</span></td>
+          <td><span class="badge bad sm">review</span></td>
+          <td class="mono">HAS-04</td>
+          <td>Register &#x27;STATUS&#x27; (required offset 0x08) is not implemented in RTL.<span class="muted"> · backing: DEC-02</span></td>
+          <td class="ev mono">[MAS §3.2] `STATUS` register at byte offset **0x04** (read-only).</td>
+        </tr>
+        <tr data-cat="csr" data-ms="0.1">
+          <td class="mono">CLAIM-05</td>
+          <td><span class="pill">0.1</span></td>
+          <td><span class="cat">csr</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-03</td>
+          <td>Register &#x27;BEK_KEY&#x27; at 0x10 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §3.3] `BEK_KEY` register at byte offset **0x10** (write-only), written by the security engine during initialization.</td>
+        </tr>
+        <tr data-cat="functional" data-ms="0.5">
+          <td class="mono">CLAIM-06</td>
+          <td><span class="pill">0.5</span></td>
+          <td><span class="cat">functional</span></td>
+          <td><span class="badge bad">Missing</span></td>
+          <td><span class="badge warn sm">medium</span></td>
+          <td class="mono">HAS-04</td>
+          <td>FSM &#x27;ciu_fsm&#x27;: missing [&#x27;ERROR&#x27;].<span class="muted"></span></td>
+          <td class="ev mono">[MAS §4.1] The control FSM `ciu_fsm` shall implement the states **IDLE, ACTIVE, ERROR**.</td>
+        </tr>
+        <tr data-cat="error" data-ms="0.8">
+          <td class="mono">CLAIM-07</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">error</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-06</td>
+          <td>Register &#x27;ERR_STATUS&#x27; at 0x0c matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §5.1] `ERR_STATUS` register at byte offset **0x0C** (read-only) reports fault conditions.</td>
+        </tr>
+        <tr data-cat="dft" data-ms="0.8">
+          <td class="mono">CLAIM-08</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">dft</span></td>
+          <td><span class="badge bad">Missing</span></td>
+          <td><span class="badge warn sm">medium</span></td>
+          <td class="mono">HAS-07</td>
+          <td>Signal &#x27;scan_en&#x27; not found in RTL.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §5.2] A scan-enable input `scan_en` (1 bit) controls scan-based DFT.</td>
+        </tr>
+        <tr data-cat="perf" data-ms="0.8">
+          <td class="mono">CLAIM-09</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">perf</span></td>
+          <td><span class="badge ok">Verified</span></td>
+          <td><span class="badge ok sm">high</span></td>
+          <td class="mono">HAS-08</td>
+          <td>Register &#x27;PERF_CNT&#x27; at 0x14 matches spec.<span class="muted"></span></td>
+          <td class="ev mono">[MAS §5.3] `PERF_CNT` register at byte offset **0x14** (read-only) counts transactions.</td>
+        </tr>
+        <tr data-cat="debug" data-ms="0.8">
+          <td class="mono">RTL-EXTRA</td>
+          <td><span class="pill">0.8</span></td>
+          <td><span class="cat">debug</span></td>
+          <td><span class="badge warn">Undocumented</span></td>
+          <td><span class="badge warn sm">medium</span></td>
+          <td class="mono">—</td>
+          <td>RTL register ADDR_DEBUG at 0x20 has no matching spec claim. Context: DEC-03 (meeting, 2026-07-30) notes it as a known temporary hook.<span class="muted"> · backing: DEC-03</span></td>
+          <td class="ev mono">[DECISION DEC-03] Bring-up sync meeting. A DEBUG_SCRATCH register may be added temporarily at 0x20 to aid silicon bring-up. It is explicitly NOT part of the HAS or MAS and must b</td>
+        </tr></tbody></table>
+
+  <h2>Decisions Considered</h2>
+  <table><thead><tr><th>ID</th><th>Date</th><th>Authority</th><th>Type</th>
+    <th>Amends</th><th>Change</th></tr></thead><tbody>
+        <tr><td class="mono">DEC-03</td><td>2026-07-30</td>
+        <td>meeting</td><td>discussion</td><td>none</td>
+        <td class="mono">DEBUG.note=temporary</td></tr>
+        <tr><td class="mono">DEC-01</td><td>2026-08-12</td>
+        <td>arch_review</td><td>decision</td><td>none</td>
+        <td class="mono">s_axi_wdata.width_bits=64</td></tr>
+        <tr><td class="mono">DEC-02</td><td>2026-08-25</td>
+        <td>design_review</td><td>decision</td><td>MAS §3.2</td>
+        <td class="mono">STATUS.offset=0x08</td></tr></tbody></table>
+
+  <footer>Spec-RTL Sentinel · every finding cites its exact source · runs fully offline</footer>
+</div>
+
+<script>
+  var SCOPE = {"0.1": ["boundary", "csr"], "0.5": ["boundary", "csr", "functional"], "0.8": ["boundary", "csr", "debug", "dft", "error", "functional", "perf"], "1.0": ["boundary", "csr", "debug", "dft", "error", "functional", "integration", "perf"]};
+  var btns = document.querySelectorAll('#filters button');
+  var rows = document.querySelectorAll('#findings tbody tr');
+  btns.forEach(function(b) {
+    b.addEventListener('click', function() {
+      btns.forEach(function(x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      var f = b.getAttribute('data-f');
+      rows.forEach(function(r) {
+        var cat = r.getAttribute('data-cat');
+        var show = (f === 'all') || (SCOPE[f] && SCOPE[f].indexOf(cat) !== -1);
+        r.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

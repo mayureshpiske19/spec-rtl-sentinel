@@ -2,8 +2,6 @@
 
 **Agentic RAG that checks RTL against the *entire chain of design intent* — HAS → MAS → decisions → RTL — and reports where the as-built silicon drifts from the as-agreed intent.**
 
-Microsoft Global Hackathon 2026 · Challenge: *Hack for Customer-Focused AI Wins with Forward Deployed Engineering*
-
 ---
 
 ## The problem
@@ -82,7 +80,23 @@ decisions + RTL. The sample RTL contains deliberately injected drift, and the
 decisions include one **reinforcing** review (64-bit bus), one **conflicting**
 review (STATUS offset), and one **contextual** note (temporary debug register) —
 so you see the tool catch drift, resolve a spec conflict, flag a traceability
-gap, and explain an undocumented register. Report -> `reports/drift_report.md`.
+gap, and explain an undocumented register.
+
+Two reports are written on every run:
+
+- `reports/drift_report.md` — the markdown ledger
+- `reports/drift_report.html` — a **self-contained, styled dashboard** (no
+  external resources; opens locally or shares as a single file)
+
+## The dashboard UI
+
+![Spec-RTL Sentinel drift-report dashboard](docs/ui_screenshot.png)
+
+The HTML report renders milestone gate cards, summary chips, the HAS→MAS→RTL
+traceability table, resolved spec conflicts, and a **milestone-filterable**
+clause-by-clause findings table — each finding citing its exact source. It
+adapts to light/dark theme automatically. A rendered sample lives at
+[`docs/sample_drift_report.html`](docs/sample_drift_report.html).
 
 ### What the demo catches
 
@@ -144,7 +158,8 @@ src/knowledge/     multi-source RAG store
 src/agents/        the agents (parse, ingest, resolve, trace, scan, map, sim)
 src/milestones.py    milestone scope + cumulative gate logic
 src/orchestrator.py  end-to-end pipeline
-src/report.py        layered report generator
+src/report.py        layered markdown report generator
+src/report_html.py   self-contained HTML dashboard generator
 examples/run_demo.py
 ```
 

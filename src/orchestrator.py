@@ -30,6 +30,7 @@ from .agents.mapper import map_claims, Finding
 from .agents.sim_checker import run_sim_checks, SimResult
 from . import milestones as ms
 from .report import build_report, save_report
+from .report_html import build_html, save_html
 
 
 @dataclass
@@ -47,6 +48,7 @@ class PipelineResult:
     milestone: str
     report_md: str
     report_path: str
+    html_path: str
     rag_stats: dict
 
 
@@ -90,6 +92,13 @@ def run_pipeline(has_path: str, spec_path: str, rtl_path: str,
                              rtl_path, gates=gates, milestone=milestone)
     report_path = save_report(report_md, out_dir=out_dir)
 
+    # HTML dashboard (shows all findings, filterable by milestone).
+    html_doc = build_html(all_findings, trace_rows, resolver, decisions,
+                          store.stats(), gates, milestone, has_path, spec_path,
+                          rtl_path)
+    html_path = save_html(html_doc, out_dir=out_dir)
+
     return PipelineResult(has_reqs, claims, decisions, resolver, trace_rows,
                           facts, findings, all_findings, sim_results, gates,
-                          milestone, report_md, report_path, store.stats())
+                          milestone, report_md, report_path, html_path,
+                          store.stats())
