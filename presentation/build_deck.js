@@ -166,6 +166,41 @@ s.addText([
 ], { x: 9.7, y: 4.8, w: 3.0, h: 1.2, fontFace: BF, fontSize: 13.5, color: "CADCFC", align: "center", margin: 0 });
 s.addText("one command · zero API keys", { x: 9.7, y: 6.5, w: 3.0, h: 0.4, fontFace: BF, fontSize: 11.5, italic: true, color: "7FD4E0", align: "center", margin: 0 });
 
+// ---------------------------------------------------------------- SLIDE 7b — Milestone gates
+s = p.addSlide(); s.background = { color: ICE };
+kicker(s, "Milestone Gates");
+title(s, "Is the RTL 0.1-clean? 0.5-clean?");
+s.addText([
+  { text: "HAS is the golden reference — never flagged. ", options: { bold: true, color: NAVY } },
+  { text: "MAS and RTL are checked against it milestone by milestone, so each stage only checks what should be done by then.", options: { color: INK } },
+], { x: 0.7, y: 1.9, w: 11.9, h: 0.7, fontFace: BF, fontSize: 16, margin: 0 });
+const gates = [
+  ["0.1", "Boundary — interface ports + CSR registers", "FAIL", "bus 32-bit drift · STATUS missing"],
+  ["0.5", "+ Functional behavior (FSM, datapath)", "FAIL", "FSM ERROR state missing"],
+  ["0.8", "+ Errors, DFT, perf counters, debug", "FAIL", "scan_en missing · latency gap"],
+  ["1.0", "Overall / integration — everything", "FAIL", "not yet spec-faithful"],
+];
+let gy = 2.75;
+gates.forEach(([m, scope, verdict, why]) => {
+  card(s, 0.7, gy, 9.0, 0.92, { shadow: true });
+  s.addShape(p.shapes.RECTANGLE, { x: 0.7, y: gy, w: 0.13, h: 0.92, fill: { color: RED } });
+  s.addShape(p.shapes.OVAL, { x: 0.95, y: gy + 0.2, w: 0.52, h: 0.52, fill: { color: NAVY } });
+  s.addText(m, { x: 0.95, y: gy + 0.2, w: 0.52, h: 0.52, fontFace: HF, fontSize: 14, bold: true, color: "FFFFFF", align: "center", valign: "middle", margin: 0 });
+  s.addText(scope, { x: 1.65, y: gy + 0.12, w: 6.0, h: 0.4, fontFace: HF, fontSize: 14.5, bold: true, color: NAVY, align: "left", margin: 0 });
+  s.addText(why, { x: 1.65, y: gy + 0.5, w: 6.0, h: 0.36, fontFace: BF, fontSize: 12, color: MUTE, align: "left", margin: 0 });
+  s.addText("🚨 " + verdict, { x: 7.75, y: gy, w: 1.8, h: 0.92, fontFace: HF, fontSize: 15, bold: true, color: RED, align: "center", valign: "middle", margin: 0 });
+  gy += 1.03;
+});
+// side note panel
+card(s, 9.9, 2.75, 2.8, 4.07, { fill: NAVY });
+s.addText("Cumulative gates", { x: 9.9, y: 3.05, w: 2.8, h: 0.4, fontFace: HF, fontSize: 15, bold: true, color: "7FD4E0", align: "center", margin: 0 });
+s.addText([
+  { text: "Each milestone re-checks everything below it.", options: { breakLine: true } },
+  { text: "", options: { breakLine: true } },
+  { text: "A gate passes only when every in-scope claim is verified — no drift, no gap.", options: {} },
+], { x: 10.1, y: 3.55, w: 2.4, h: 2.2, fontFace: BF, fontSize: 13, color: "CADCFC", align: "left", margin: 0 });
+s.addText("RTL isn't even 0.1-ready yet.", { x: 9.9, y: 6.2, w: 2.8, h: 0.5, fontFace: HF, fontSize: 12.5, italic: true, bold: true, color: "FFFFFF", align: "center", margin: 0 });
+
 // ---------------------------------------------------------------- SLIDE 8 — Why different
 s = p.addSlide(); s.background = { color: ICE };
 kicker(s, "Why It's Different");

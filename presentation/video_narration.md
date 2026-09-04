@@ -55,18 +55,28 @@ was never even refined into the micro-architecture spec — a traceability gap."
 
 ---
 
-## [1:35–1:55] — Why It's Different
+## [1:35–1:48] — Milestone Gates
+*(On screen: the milestone gate table — 0.1 / 0.5 / 0.8 / 1.0, all FAIL)*
+
+"And it checks maturity by milestone. The HAS is golden; the MAS and RTL are
+graded against it stage by stage. At zero-point-one we only check the interface
+— ports and registers. At zero-point-five, functional behavior. At
+zero-point-eight, errors, DFT, and performance. Here, the design fails its very
+first gate — it isn't even zero-point-one ready."
+
+---
+
+## [1:48–1:57] — Why It's Different
 *(On screen: highlight "every finding cites its source")*
 
 "What makes this unique? Sentinel is the only tool that indexes the *tribal
 layer* — the decisions buried in reviews and chats — and reconciles them before
-ever touching the RTL. And every single finding cites its exact source. No
-hallucinations. Just grounded, traceable evidence a verification engineer can
-trust."
+ever touching the RTL. And every finding cites its exact source. No
+hallucinations — just grounded, traceable evidence."
 
 ---
 
-## [1:55–2:00] — Close
+## [1:57–2:00] — Close
 *(On screen: logo + GitHub URL)*
 
 "Spec-RTL Sentinel. Catching spec-to-silicon drift before it becomes a bug."
