@@ -27,3 +27,11 @@ presentation/render/
 presentation/video/
 presentation/package-lock.json
 presentation/voiceover_*.wav
+
+# Local backups & scratch (kept on disk, not pushed)
+presentation/video_backup_*/
+presentation/*_backup*.mp4
+presentation/_gen_*.py
+# Heavy video build intermediates (final mp4 is committed; narration mp3s kept)
+presentation/vo/*.mp4
+presentation/vo/*.png

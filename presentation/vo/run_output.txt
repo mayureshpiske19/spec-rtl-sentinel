@@ -1,0 +1,53 @@
+﻿========================================================================
+Spec-RTL Sentinel ù Design Intent Auditor
+========================================================================
+Knowledge ingested : {'HAS': 10, 'MAS': 11, 'DECISION': 3}  (HAS/MAS/DECISION chunks)
+HAS requirements   : 9   (golden reference)
+MAS claims         : 28
+Decisions          : 3
+RTL module         : zephyr_coss_top
+Milestone scope    : 1.0
+
+Milestone gate status (cumulative):
+  [FAIL] 0.1  Boundary ù ports + CSR registers       checked=12  <- CLAIM-01:drift
+  [FAIL] 0.5  + Functional behavior (FSM, datapath)  checked=13  <- CLAIM-01:drift, CLAIM-13:missing
+  [FAIL] 0.8  + Errors, DFT, perf counters, debug    checked=29  <- CLAIM-01:drift, CLAIM-13:missing, CLAIM-22:missing
+  [FAIL] 1.0  Overall / integration ù everything     checked=29  <- CLAIM-01:drift, CLAIM-13:missing, CLAIM-22:missing; HAS-09:gap
+
+Spec conflicts (source vs source):
+  INT_STATUS.offset: MAS=0x054 vs DEC-02=0x058 -> resolved 0x058 (design_review)
+
+Findings (milestone 1.0 scope):
+  [DRIFT       ] CLAIM-01   boundary   (high  ) HAS-01  'm_axi_wdata' is 32 bits but required 64. [backing: DEC-01]
+  [VERIFIED    ] CLAIM-02   boundary   (high  ) HAS-01  Reset 'aresetn' is active-low as specified.
+  [VERIFIED    ] CLAIM-03   boundary   (high  ) HAS-02  's_axi_awaddr' width 12 bits matches spec.
+  [VERIFIED    ] CLAIM-04   csr        (high  ) HAS-02  Register 'CTRL' at 0x000 matches spec.
+  [VERIFIED    ] CLAIM-05   csr        (high  ) HAS-02  Register 'CFG' at 0x004 matches spec.
+  [VERIFIED    ] CLAIM-06   csr        (high  ) HAS-02  Register 'STATUS' at 0x008 matches spec.
+  [VERIFIED    ] CLAIM-07   csr        (high  ) HAS-02  Register 'RING_BASE' at 0x010 matches spec.
+  [VERIFIED    ] CLAIM-08   csr        (high  ) HAS-02  Register 'RING_HEAD' at 0x014 matches spec.
+  [VERIFIED    ] CLAIM-09   csr        (high  ) HAS-02  Register 'RING_TAIL' at 0x018 matches spec.
+  [VERIFIED    ] CLAIM-10   csr        (high  ) HAS-02  Register 'RING_SIZE' at 0x01c matches spec.
+  [VERIFIED    ] CLAIM-11   csr        (high  ) HAS-02  Register 'INT_EN' at 0x050 matches spec.
+  [VERIFIED    ] CLAIM-12   csr        (review) HAS-02  Register 'INT_STATUS' at 0x058 matches spec. [backing: DEC-02]
+  [MISSING     ] CLAIM-13   functional (medium) HAS-03  FSM 'control_fsm': missing ['WRITE_OUT'].
+  [VERIFIED    ] CLAIM-14   error      (high  ) HAS-06  Register 'ERROR' at 0x040 matches spec.
+  [VERIFIED    ] CLAIM-15   error      (high  ) HAS-06  Register 'ERR_ADDR' at 0x044 matches spec.
+  [VERIFIED    ] CLAIM-16   error      (high  ) HAS-06  Register 'ERR_INFO' at 0x048 matches spec.
+  [VERIFIED    ] CLAIM-17   perf       (high  ) HAS-07  Register 'PERF_BYTES_IN' at 0x020 matches spec.
+  [VERIFIED    ] CLAIM-18   perf       (high  ) HAS-07  Register 'PERF_BYTES_OUT' at 0x024 matches spec.
+  [VERIFIED    ] CLAIM-19   perf       (high  ) HAS-07  Register 'PERF_JOBS' at 0x028 matches spec.
+  [VERIFIED    ] CLAIM-20   perf       (high  ) HAS-07  Register 'PERF_CYCLES' at 0x02c matches spec.
+  [VERIFIED    ] CLAIM-21   perf       (high  ) HAS-05  Register 'PERF_HITS' at 0x030 matches spec.
+  [MISSING     ] CLAIM-22   perf       (medium) HAS-07  Register 'PERF_MISS' (required offset 0x034) is not implemented in RTL.
+  [VERIFIED    ] CLAIM-23   perf       (high  ) HAS-04  Register 'ARB_GRANTS' at 0x038 matches spec.
+  [VERIFIED    ] CLAIM-24   debug      (high  ) HAS-08  Register 'DBG_CTRL' at 0x060 matches spec.
+  [VERIFIED    ] CLAIM-25   debug      (high  ) HAS-08  Register 'DBG_STATE' at 0x064 matches spec.
+  [VERIFIED    ] CLAIM-26   debug      (high  ) HAS-08  Register 'DBG_OBS_SEL' at 0x068 matches spec.
+  [VERIFIED    ] CLAIM-27   debug      (high  ) HAS-08  Register 'DBG_TRACE' at 0x06c matches spec.
+  [VERIFIED    ] CLAIM-28   dft        (high  ) HAS-08  'scan_en' width 1 bits matches spec.
+  [UNDOCUMENTED] RTL-EXTRA  debug      (medium)      RTL register ADDR_DBG_SCRATCH at 0x070 has no matching spec claim. Context: DEC-03 (meeting, 2026-08-20) notes it as a known temporary hook. [backing: DEC-03]
+
+Full report: reports\drift_report.md
+HTML report: reports\drift_report.html
+========================================================================
