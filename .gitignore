@@ -19,3 +19,8 @@ Thumbs.db
 # Secrets — never commit API keys
 .env
 *.key
+
+# Presentation build artifacts
+presentation/node_modules/
+presentation/render/
+presentation/package-lock.json

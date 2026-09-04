@@ -32,6 +32,8 @@ grounds RTL against all of them at once:
    RTL   (the "as-built")
 ```
 
+![MAS-RTL Sentinel architecture](docs/architecture.png)
+
 It produces a **layered drift report**:
 
 1. **Traceability** HAS -> MAS -> RTL, flagging **gaps** (top-level intent that
